@@ -21,6 +21,7 @@
 
 import type { MetadataRoute } from 'next';
 import { SITE_URL, DEFAULT_OG_IMAGE } from '@/lib/seo';
+import { getAllPostSlugs, getPostBySlug } from '@/lib/blog/posts';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -42,6 +43,22 @@ const LAUNCH = new Date('2026-09-28');
 
 /** Last time legal copy was reviewed and updated. */
 const LEGAL_UPDATE = new Date('2026-08-01');
+
+// ─── Blog post entries (additive — one URL per published post) ────────────────
+
+const blogPostEntries: MetadataRoute.Sitemap = getAllPostSlugs().map(
+  (slug): MetadataRoute.Sitemap[number] => {
+    const post = getPostBySlug(slug);
+    const cover = post?.coverImage ? `${SITE_URL}${post.coverImage}` : ogImageUrl;
+    return {
+      url: url(`/blog/${slug}`),
+      lastModified: post ? new Date(post.date) : TODAY,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+      images: [cover],
+    };
+  },
+);
 
 // ─── Sitemap ──────────────────────────────────────────────────────────────────
 
@@ -97,6 +114,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
       images: [ogImageUrl],
     },
+
+    // ── Blog posts ─────────────────────────────────────────────────────────────
+    ...blogPostEntries,
     {
       url: url('/contact'),
       lastModified: LAUNCH,

@@ -1,15 +1,9 @@
 /**
- * @fileoverview Blog page for CreditBuddy.
+ * @fileoverview Blog page for CreditBuddy — The Student Financial Journal.
  *
- * The Student Financial Journal — a content hub targeting financial
- * literacy keywords for Indian college students.
- *
- * Content categories:
- *   - Credit 101 (CIBIL score guides)
- *   - Campus Gigs (earning opportunities)
- *   - Budgeting (money management tips)
- *   - Taxes (ITR for students)
- *   - Investing (SIP, mutual funds)
+ * A content hub targeting financial-literacy keywords for Indian college
+ * students. Renders a hero, a featured post (full-width), and a responsive
+ * grid of article cards that link through to `/blog/<slug>`.
  *
  * SEO priority: 0.7 — content / thought-leadership page.
  *
@@ -20,10 +14,13 @@ import { SmoothScroll } from '@/components/landing/shared/SmoothScroll';
 import { GrainOverlay } from '@/components/landing/shared/GrainOverlay';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { FooterShutter } from '@/components/landing/Footer/FooterShutter';
+import { BlogCard } from '@/components/blog/BlogCard';
+import { POSTS } from '@/lib/blog/posts';
 import {
   buildMetadata,
   generateWebPage,
   generateBlogPosting,
+  SITE_URL,
 } from '@/lib/seo';
 
 // ─── SEO Metadata ────────────────────────────────────────────────────────────
@@ -58,72 +55,10 @@ export const metadata = buildMetadata({
   ],
 });
 
-// ─── Article Data ────────────────────────────────────────────────────────────
+// ─── Derived data ─────────────────────────────────────────────────────────────
 
-/**
- * Static article data for the blog listing page.
- *
- * In a production app, these would come from a CMS / database.
- * Each article includes metadata used for both rendering and
- * generating BlogPosting JSON-LD structured data.
- */
-const ARTICLES = [
-  {
-    category: 'Credit 101',
-    title: 'How to Build a 750+ CIBIL Score Before You Graduate',
-    excerpt:
-      'Most students start adulthood with zero credit history. Here is how to use CreditBuddy to build an stellar credit score safely in college.',
-    readTime: '4 min read',
-    author: 'Arjun Mehta',
-    date: 'Aug 5, 2026',
-    dateISO: '2026-08-05',
-    color: 'bg-accent-lime text-ink',
-  },
-  {
-    category: 'Campus Gigs',
-    title: 'Top 7 High-Paying Micro Gigs for College Students in 2026',
-    excerpt:
-      'From brand promotions to student ambassador roles, discover how to make ₹5,000 to ₹15,000 a month between lectures.',
-    readTime: '5 min read',
-    author: 'Dev Malhotra',
-    date: 'Jul 28, 2026',
-    dateISO: '2026-07-28',
-    color: 'bg-accent-gold text-ink',
-  },
-  {
-    category: 'Budgeting',
-    title: 'The 50/30/20 Rule Modified for Pocket Money & Stipends',
-    excerpt:
-      'Traditional budgeting rules fail when your income is irregular. Here is a practical framework tailored for student lifestyles.',
-    readTime: '3 min read',
-    author: 'Sneha Kapoor',
-    date: 'Jul 20, 2026',
-    dateISO: '2026-07-20',
-    color: 'bg-accent-cyan text-ink',
-  },
-  {
-    category: 'Taxes',
-    title: 'Tax Filing 101: Do Students in India Need to File ITR?',
-    excerpt:
-      'Everything you need to know about TDS on freelancing, internship stipends, and tax returns without the confusing jargon.',
-    readTime: '6 min read',
-    author: 'Priya Sundaram',
-    date: 'Jul 12, 2026',
-    dateISO: '2026-07-12',
-    color: 'bg-accent-coral text-ink',
-  },
-  {
-    category: 'Investing',
-    title: 'Starting Your First ₹500 SIP: A Beginner Guide to Mutual Funds',
-    excerpt:
-      'Why starting small in your early 20s lets compounding work magic for your post-college future.',
-    readTime: '5 min read',
-    author: 'Rohan Gupta',
-    date: 'Jul 04, 2026',
-    dateISO: '2026-07-04',
-    color: 'bg-accent-purple text-white',
-  },
-];
+const featuredPost = POSTS.find((post) => post.featured);
+const gridPosts = POSTS.filter((post) => !post.featured);
 
 // ─── Structured Data ─────────────────────────────────────────────────────────
 
@@ -140,32 +75,24 @@ const webPageJsonLd = JSON.stringify(
   }),
 );
 
-/**
- * Generate BlogPosting JSON-LD for each article.
- * This enables article rich results in Google Search.
- */
-const articleJsonLds = ARTICLES.map((art) =>
+/** BlogPosting JSON-LD per article, now pointing at the real `/blog/<slug>` routes. */
+const articleJsonLds = POSTS.map((post) =>
   JSON.stringify(
     generateBlogPosting({
-      title: art.title,
-      description: art.excerpt,
-      path: '/blog', // All on the same listing page for now
-      author: art.author,
-      datePublished: art.dateISO,
-      category: art.category,
-      readTime: art.readTime,
+      title: post.title,
+      description: post.excerpt,
+      path: `/blog/${post.slug}`,
+      author: post.author.name,
+      datePublished: post.date,
+      category: post.category,
+      readTime: post.readingTime,
+      ...(post.coverImage && { image: `${SITE_URL}${post.coverImage}` }),
     }),
   ),
 );
 
 // ─── Page Component ──────────────────────────────────────────────────────────
 
-/**
- * Blog page component.
- *
- * Renders a card grid of financial literacy articles with
- * category tags, author info, and publication dates.
- */
 export default function BlogPage() {
   return (
     <SmoothScroll>
@@ -186,51 +113,42 @@ export default function BlogPage() {
 
       <main className="relative w-full block bg-[#FBF7EF]">
         {/* Blog Hero */}
-        <section className="relative pt-32 pb-16 px-6 md:px-12 bg-bg-primary text-ink border-b-[1.6px] border-ink">
-          <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
+        <section className="relative pt-32 pb-16 px-6 md:px-12 bg-bg-primary text-ink border-b-[1.6px] border-ink overflow-hidden">
+          {/* Warm glow blobs */}
+          <div className="absolute w-[320px] h-[320px] -left-24 -top-24 bg-accent-cyan/40 rounded-full blur-[64px] pointer-events-none" />
+          <div className="absolute w-[384px] h-[384px] right-[-50px] top-[120px] bg-accent-coral/30 rounded-full blur-[64px] pointer-events-none" />
+
+          <div className="relative max-w-7xl mx-auto flex flex-col items-center text-center">
             <span className="font-jetbrains text-xs font-normal brutal-pill bg-accent-purple text-white px-4 py-1.5 mb-6 inline-block">
-              // student money journal
+              {'// student money journal'}
             </span>
             <h1 className="font-bricolage text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[0.95] mb-6 max-w-4xl">
               Money tips that <span className="accent-underline">actually make sense</span>.
             </h1>
-            <p className="font-jakarta text-ink-muted text-lg max-w-2xl leading-relaxed mb-8">
+            <p className="font-jakarta text-ink-muted text-lg max-w-2xl leading-relaxed">
               No textbook jargon. Real advice on credit scores, campus gigs, taxes, and investing for Indian college students.
             </p>
           </div>
         </section>
 
+        {/* Featured post */}
+        {featuredPost ? (
+          <section className="py-14 md:py-20 px-6 md:px-12 max-w-7xl mx-auto">
+            <div className="mb-8 md:mb-10 flex items-center gap-2.5">
+              <span className="font-jetbrains text-xs font-bold text-ink-muted">
+                {'// featured'}
+              </span>
+              <span className="h-px flex-1 bg-ink/10" />
+            </div>
+            <BlogCard post={featuredPost} featured />
+          </section>
+        ) : null}
+
         {/* Blog Articles Grid */}
-        <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <section className="pb-16 md:pb-24 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ARTICLES.map((art, i) => (
-              <article
-                key={i}
-                className="bg-white brutal-card p-6 flex flex-col justify-between hover:translate-y-[-4px] transition-transform duration-300"
-                style={{ boxShadow: '6px 6px 0px #14100F' }}
-              >
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className={`font-jetbrains text-xs font-bold px-3 py-1 rounded-full brutal-border ${art.color}`}>
-                      {art.category}
-                    </span>
-                    <span className="font-jetbrains text-xs text-ink-muted">{art.readTime}</span>
-                  </div>
-
-                  <h2 className="font-bricolage text-2xl font-extrabold text-ink mb-3 leading-tight hover:text-accent-purple transition-colors cursor-pointer">
-                    {art.title}
-                  </h2>
-
-                  <p className="font-jakarta text-xs text-ink-muted leading-relaxed mb-6">
-                    {art.excerpt}
-                  </p>
-                </div>
-
-                <div className="pt-4 border-t border-ink/10 flex items-center justify-between font-jetbrains text-xs text-ink-muted">
-                  <span>By {art.author}</span>
-                  <span>{art.date}</span>
-                </div>
-              </article>
+            {gridPosts.map((post, i) => (
+              <BlogCard key={post.slug} post={post} index={i} />
             ))}
           </div>
         </section>
