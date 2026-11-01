@@ -26,6 +26,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { NavSidebar } from '@/components/landing/NavSidebar';
+import { CustomCursor } from '@/components/landing/shared/CustomCursor';
 import {
   buildMetadata,
   generateOrganization,
@@ -186,7 +187,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className="overflow-x-clip max-w-full">
+    <html lang="en" suppressHydrationWarning className="max-w-full">
       <head>
         {/* ── Font Preconnect ───────────────────────────────────── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -221,9 +222,10 @@ export default function RootLayout({
 
       <body
         suppressHydrationWarning
-        className="antialiased overflow-x-clip max-w-full selection:bg-accent-purple selection:text-white"
+        className="antialiased max-w-full selection:bg-accent-purple selection:text-white"
       >
         <NavSidebar />
+        <CustomCursor />
         {children}
       </body>
     </html>

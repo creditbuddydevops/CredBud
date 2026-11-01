@@ -61,7 +61,7 @@ export const AuthorBio: React.FC<AuthorBioProps> = ({ author, bio, linkedin }) =
               href={linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-1 font-jetbrains text-xs font-bold text-ink underline underline-offset-4 hover:text-accent-purple transition-colors"
+              className="mt-4 inline-flex items-center gap-1 font-jetbrains text-xs font-bold text-ink underline underline-offset-4 hover:text-accent-purple transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-purple rounded-sm"
             >
               Connect on LinkedIn <ArrowUpRight className="h-3.5 w-3.5" />
             </a>

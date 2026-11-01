@@ -17,7 +17,7 @@ import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { Post } from '@/lib/blog/posts';
-import { AUTHOR_BIOS, AUTHOR_LINKS } from '@/lib/blog/posts';
+import { AUTHOR_BIOS, AUTHOR_LINKS, BUILD_CIBIL_FAQS } from '@/lib/blog/posts';
 import { PullQuote } from '../PullQuote';
 import { Callout } from '../Callout';
 import { StepCard } from '../StepCard';
@@ -364,7 +364,33 @@ export const BuildCibilScorePost: React.FC<BuildCibilScorePostProps> = ({
         />
       </section>
 
-      {/* 9 — Author bio */}
+      {/* 9 — FAQ */}
+      <section className="cibil-reveal space-y-5" aria-labelledby="faq-heading">
+        <SectionHeading eyebrow="// common questions" title="Frequently asked questions" />
+        <div className="space-y-3">
+          {BUILD_CIBIL_FAQS.map((faq, i) => (
+            <details
+              key={i}
+              className="brutal-card bg-white rounded-2xl overflow-hidden group"
+              style={{ boxShadow: '4px 4px 0px #14100F' }}
+            >
+              <summary className="flex cursor-pointer select-none items-center justify-between px-5 py-4 font-bricolage font-extrabold text-lg text-ink list-none gap-3 hover:bg-accent-lime/20 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-purple">
+                {faq.question}
+                <span className="shrink-0 w-7 h-7 rounded-full bg-accent-lime border-[1.6px] border-ink flex items-center justify-center font-jetbrains text-sm font-bold text-ink transition-transform group-open:rotate-45" aria-hidden="true">
+                  +
+                </span>
+              </summary>
+              <div className="px-5 pb-5 pt-1 border-t border-ink/10">
+                <p className="font-jakarta text-base leading-relaxed text-ink/80">
+                  {faq.answer}
+                </p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* 10 — Author bio */}
       <section className="cibil-reveal">
         <AuthorBio author={post.author} bio={bio} linkedin={linkedin} />
       </section>

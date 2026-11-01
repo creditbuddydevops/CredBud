@@ -24,7 +24,6 @@ import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { BuildCibilScorePost } from '@/components/blog/posts/BuildCibilScorePost';
 import { GenericPost } from '@/components/blog/posts/GenericPost';
 import {
-  POSTS,
   getPostBySlug,
   getAllPostSlugs,
   getRelatedPosts,

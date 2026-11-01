@@ -107,7 +107,7 @@ export const POSTS: Post[] = [
     author: DEBASISH_MALLICK,
     date: '2026-08-05',
     readingTime: '7 min read',
-    coverImage: '/images/blog/build-cibil-score-cover.svg',
+    coverImage: '/images/blog/build-cibil-score-cover.webp',
     tags: [
       'CIBIL score',
       'build credit',

@@ -111,7 +111,7 @@ export default function BlogPage() {
         />
       ))}
 
-      <main className="relative w-full block bg-[#FBF7EF]">
+      <main className="relative w-full block bg-bg-primary">
         {/* Blog Hero */}
         <section className="relative pt-32 pb-16 px-6 md:px-12 bg-bg-primary text-ink border-b-[1.6px] border-ink overflow-hidden">
           {/* Warm glow blobs */}

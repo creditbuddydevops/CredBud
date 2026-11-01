@@ -143,8 +143,9 @@ export const Hero = () => {
         className="w-full h-full relative flex flex-col items-center justify-center p-6 md:p-12 lg:px-16 z-20 select-none text-center pt-24 md:pt-28 pb-20 md:pb-32"
         style={{ transformStyle: 'preserve-3d' }}
       >
-        {/* Main Text Content Column */}
-        <div className="flex flex-col items-center justify-center max-w-5xl z-30 w-full mt-4 sm:mt-6 md:mt-8" style={{ transform: 'translateZ(80px)' }}>
+        {/* Main Text Content Column — nudged up a bit via negative top margin so
+            the hero copy sits higher in the viewport. Tune the values to adjust. */}
+        <div className="flex flex-col items-center justify-center max-w-5xl z-30 w-full -mt-4 sm:-mt-8 md:-mt-12" style={{ transform: 'translateZ(80px)' }}>
           
           {/* Eyebrow Badge */}
           <div 

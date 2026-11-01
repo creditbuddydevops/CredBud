@@ -156,10 +156,14 @@ export const NavSidebar = () => {
   return (
     <>
       {/* ── Top-Left Logo Circle ─────────────────────────────────── */}
+      {/* When the sidebar opens, drop the logo to the panel's z-index so the
+          panel (rendered later in the DOM) paints on top of it. On mobile the
+          full-width drawer then covers the logo; on close it reappears. Desktop
+          is unaffected (the capped 560px panel never overlaps the top-left). */}
       <Link
         href="/"
         aria-label="CreditBuddy Home"
-        className="fixed top-5 left-6 z-[10001] w-[52px] h-[52px] rounded-full bg-white brutal-border brutal-shadow-sm flex items-center justify-center hover:scale-105 active:scale-95 select-none"
+        className={`fixed top-5 left-6 ${isOpen ? 'z-[9999]' : 'z-[10001]'} w-[52px] h-[52px] rounded-full bg-white brutal-border brutal-shadow-sm flex items-center justify-center hover:scale-105 active:scale-95 select-none`}
         style={{
           opacity: showButtons ? 1 : 0,
           transform: showButtons ? 'translateY(0)' : 'translateY(-20px)',

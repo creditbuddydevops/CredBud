@@ -13,6 +13,11 @@ if (typeof window !== 'undefined') {
 
 export const AboutTeamSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  // Refs for the 3D card tilt + holographic shine effect
+  const cardWrapRef = useRef<HTMLDivElement>(null);
+  const shineRef    = useRef<HTMLDivElement>(null);
+  const glintRef    = useRef<HTMLDivElement>(null);
+  const rafRef      = useRef<number | null>(null);
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -44,7 +49,70 @@ export const AboutTeamSection = () => {
       );
     }, containerRef);
 
-    return () => ctx.revert();
+    // ── 3D tilt + holographic shine ──────────────────────────────────────
+    const card = cardWrapRef.current;
+    const shine = shineRef.current;
+    const glint = glintRef.current;
+    if (!card) return () => ctx.revert();
+
+    const handleMove = (e: MouseEvent) => {
+      if (rafRef.current) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        const rect = card.getBoundingClientRect();
+
+        // Cursor position as 0…1 within the card
+        const px = (e.clientX - rect.left) / rect.width;
+        const py = (e.clientY - rect.top)  / rect.height;
+
+        // Map to -1…+1 (centre = 0)
+        const nx = px * 2 - 1;
+        const ny = py * 2 - 1;
+
+        // Tilt: moving cursor RIGHT tilts the card right (+rotateY),
+        // moving cursor UP tilts the card back (+rotateX).
+        // Max ±12 deg — enough to feel 3D without being vertiginous.
+        gsap.to(card, {
+          rotateY:  nx * 12,
+          rotateX: -ny * 12,
+          scale: 1.03,
+          duration: 0.4,
+          ease: 'power2.out',
+          overwrite: 'auto',
+        });
+
+        // White gloss sweep — a large soft radial at cursor position
+        if (shine) {
+          shine.style.background = `radial-gradient(ellipse 80% 60% at ${px * 100}% ${py * 100}%, rgba(255,255,255,0.18) 0%, transparent 70%)`;
+          shine.style.opacity = '1';
+        }
+        // Tight specular hotspot — small, bright, directly under cursor
+        if (glint) {
+          glint.style.background = `radial-gradient(circle 120px at ${px * 100}% ${py * 100}%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.06) 40%, transparent 70%)`;
+          glint.style.opacity = '1';
+        }
+      });
+    };
+
+    const handleLeave = () => {
+      if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
+      gsap.to(card, {
+        rotateY: 0, rotateX: 0, scale: 1,
+        duration: 0.75, ease: 'power3.out', overwrite: 'auto',
+      });
+      if (shine) gsap.to(shine, { opacity: 0, duration: 0.55, ease: 'power2.out' });
+      if (glint) gsap.to(glint, { opacity: 0, duration: 0.55, ease: 'power2.out' });
+    };
+
+    card.addEventListener('mousemove', handleMove, { passive: true });
+    card.addEventListener('mouseleave', handleLeave);
+
+    return () => {
+      ctx.revert();
+      card.removeEventListener('mousemove', handleMove);
+      card.removeEventListener('mouseleave', handleLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
@@ -74,35 +142,58 @@ export const AboutTeamSection = () => {
 
         {/* Left — Image Block */}
         <div className="founder-image-block lg:w-[45%] flex-shrink-0">
-          <div
-            className="relative w-full aspect-[3/4] max-h-[580px] rounded-3xl overflow-hidden brutal-border bg-gradient-to-br from-accent-lime/30 via-accent-purple/20 to-accent-gold/20"
-            style={{ boxShadow: '8px 8px 0px #14100F' }}
-          >
-            {/* Decorative initials as large background */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-              <span className="font-bricolage font-extrabold text-[12rem] md:text-[16rem] text-ink/[0.04] leading-none tracking-tighter">
-                DM
-              </span>
-            </div>
+          {/*
+            Perspective sits on THIS outer div — the rotating element must be
+            a CHILD of the perspective container, never the same element.
+            That's what makes the tilt feel like a physical card in space
+            rather than spinning on its own axis.
+          */}
+          <div style={{ perspective: '1000px' }}>
+            <div
+              ref={cardWrapRef}
+              className="relative w-full"
+              style={{
+                transformStyle: 'preserve-3d',
+                willChange: 'transform',
+                cursor: 'pointer',
+              }}
+            >
+              {/* ── Card shell ── */}
+              <div
+                className="relative w-full aspect-[3/4] max-h-[580px] rounded-3xl overflow-hidden brutal-border"
+                style={{ boxShadow: '8px 8px 0px #14100F' }}
+              >
+                {/* Founder photo */}
+                <img
+                  src="/images/debasish-mallick.webp"
+                  alt="Debasish Mallick — Founder & CEO of CreditBuddy"
+                  className="absolute inset-0 w-full h-full object-cover object-top select-none"
+                  draggable={false}
+                />
 
-            {/* Founder Avatar Placeholder */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-6">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-white border-[3px] border-ink flex items-center justify-center shadow-[4px_4px_0px_#14100F]">
-                <span className="font-bricolage font-extrabold text-5xl md:text-6xl text-ink">D</span>
+                {/* ── White shine sweep — follows cursor like a trump card gloss ── */}
+                <div
+                  ref={shineRef}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 rounded-3xl"
+                  style={{ opacity: 0 }}
+                />
+
+                {/* ── Tight specular hotspot ── */}
+                <div
+                  ref={glintRef}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 rounded-3xl"
+                  style={{ opacity: 0 }}
+                />
+
+                {/* Corner accent dots */}
+                <div className="absolute top-5 left-5 w-3 h-3 rounded-full bg-accent-lime border-2 border-ink z-10" />
+                <div className="absolute top-5 right-5 w-3 h-3 rounded-full bg-accent-purple border-2 border-ink z-10" />
+                <div className="absolute bottom-5 left-5 w-3 h-3 rounded-full bg-accent-gold border-2 border-ink z-10" />
+                <div className="absolute bottom-5 right-5 w-3 h-3 rounded-full bg-accent-coral border-2 border-ink z-10" />
               </div>
-
-              {/* Name below avatar */}
-              <div className="text-center">
-                <h3 className="font-bricolage font-extrabold text-2xl md:text-3xl text-ink">Debasish Mallick</h3>
-                <span className="font-jetbrains text-xs font-bold text-ink/60 uppercase tracking-widest mt-1 block">(Dev)</span>
-              </div>
             </div>
-
-            {/* Corner accent dots */}
-            <div className="absolute top-5 left-5 w-3 h-3 rounded-full bg-accent-lime border-2 border-ink" />
-            <div className="absolute top-5 right-5 w-3 h-3 rounded-full bg-accent-purple border-2 border-ink" />
-            <div className="absolute bottom-5 left-5 w-3 h-3 rounded-full bg-accent-gold border-2 border-ink" />
-            <div className="absolute bottom-5 right-5 w-3 h-3 rounded-full bg-accent-coral border-2 border-ink" />
           </div>
         </div>
 
