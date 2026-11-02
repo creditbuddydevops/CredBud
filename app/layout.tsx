@@ -187,7 +187,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className="max-w-full">
+    <html lang="en" suppressHydrationWarning className="overflow-x-clip max-w-full">
       <head>
         {/* ── Font Preconnect ───────────────────────────────────── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -222,7 +222,7 @@ export default function RootLayout({
 
       <body
         suppressHydrationWarning
-        className="antialiased max-w-full selection:bg-accent-purple selection:text-white"
+        className="antialiased overflow-x-clip max-w-full selection:bg-accent-purple selection:text-white"
       >
         <NavSidebar />
         <CustomCursor />

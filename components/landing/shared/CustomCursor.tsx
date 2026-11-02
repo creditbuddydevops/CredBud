@@ -61,7 +61,7 @@ export const CustomCursor = () => {
 
     wrap.appendChild(palm);
     wrap.appendChild(ptr);
-    document.body.appendChild(wrap);
+    document.documentElement.appendChild(wrap); // append to <html>, not <body> — body has overflow-x:clip which traps fixed children
 
     let curX = -300, curY = -300;
     let rawX = -300, rawY = -300;
