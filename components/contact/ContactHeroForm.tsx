@@ -239,7 +239,7 @@ function PptSection({ unlocked, config }: { unlocked: boolean; config: FormConfi
               <rect width="28" height="32" rx="4" fill={config.accentColor} opacity="0.15" />
               <path d="M6 4h12l6 6v18a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z" fill={config.accentColor} opacity="0.3" />
               <path d="M18 4l6 6h-6V4z" fill={config.accentColor} />
-              <text x="4" y="24" fontSize="7" fontWeight="bold" fill={config.accentColor} fontFamily="monospace">PPT</text>
+              <text x="4" y="24" fontSize="7" fontWeight="bold" fill={config.accentColor} fontFamily="monospace">PDF</text>
             </svg>
           </div>
 
@@ -250,7 +250,8 @@ function PptSection({ unlocked, config }: { unlocked: boolean; config: FormConfi
                 <p className="font-jakarta text-xs text-ink-muted mt-0.5">{config.pptDesc}</p>
               </div>
               <a
-                href="#"
+                href="/CreditBuddy_Pitch_Deck.pdf"
+                download="CreditBuddy_Pitch_Deck.pdf"
                 onClick={(e) => { if (!unlocked) e.preventDefault(); }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 font-jetbrains text-xs font-bold brutal-pill brutal-shadow-sm transition-transform hover:scale-105 active:scale-95"
                 style={{ background: config.accentColor, color: config.id === 'partnership' ? '#14100F' : '#fff' }}
