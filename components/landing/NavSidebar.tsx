@@ -127,10 +127,7 @@ export const NavSidebar = () => {
       { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out', delay: 0.58 }
     );
 
-    // Hamburger → ✕ morph
-    gsap.to(line1.current, { rotate: 45, y: 7, duration: 0.32, ease: 'power3.inOut' });
-    gsap.to(line2.current, { opacity: 0, scaleX: 0, duration: 0.18 });
-    gsap.to(line3.current, { rotate: -45, y: -7, duration: 0.32, ease: 'power3.inOut' });
+    // Hamburger hides when sidebar opens — no morph needed
   };
 
   // ── Close ─────────────────────────────────────────────────────────────────
@@ -142,10 +139,10 @@ export const NavSidebar = () => {
     });
     gsap.to(overlayRef.current, { opacity: 0, pointerEvents: 'none', duration: 0.28 });
 
-    // ✕ → hamburger morph
-    gsap.to(line1.current, { rotate: 0, y: 0, duration: 0.32, ease: 'power3.inOut' });
-    gsap.to(line2.current, { opacity: 1, scaleX: 1, duration: 0.22, delay: 0.08 });
-    gsap.to(line3.current, { rotate: 0, y: 0, duration: 0.32, ease: 'power3.inOut' });
+    // ✕ → hamburger morph — reset lines in case they were mid-animation
+    gsap.to(line1.current, { rotate: 0, y: 0, duration: 0.22, ease: 'power3.inOut' });
+    gsap.to(line2.current, { opacity: 1, scaleX: 1, duration: 0.18 });
+    gsap.to(line3.current, { rotate: 0, y: 0, duration: 0.22, ease: 'power3.inOut' });
   };
 
   const toggle = () => (isOpen ? close() : open());
@@ -187,10 +184,10 @@ export const NavSidebar = () => {
         suppressHydrationWarning
         className="fixed top-5 right-6 z-[10001] w-[52px] h-[52px] rounded-full bg-white brutal-border brutal-shadow-sm flex flex-col items-center justify-center gap-[5px] hover:scale-105 active:scale-95 cursor-pointer"
         style={{
-          opacity: showButtons ? 1 : 0,
-          transform: showButtons ? 'translateY(0)' : 'translateY(-20px)',
-          pointerEvents: showButtons ? 'auto' : 'none',
-          transition: 'opacity 0.35s ease, transform 0.35s ease',
+          opacity: showButtons && !isOpen ? 1 : 0,
+          transform: showButtons && !isOpen ? 'translateY(0)' : 'translateY(-20px)',
+          pointerEvents: showButtons && !isOpen ? 'auto' : 'none',
+          transition: 'opacity 0.25s ease, transform 0.25s ease',
         }}
       >
         <span ref={line1} className="block w-[18px] h-[2px] bg-ink rounded-full origin-center" />
