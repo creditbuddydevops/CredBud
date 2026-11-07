@@ -49,9 +49,26 @@ export const NavSidebar = () => {
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Delay appearance to match the intro sequence (~4.5 s of animation)
-    const revealTimer = setTimeout(() => setButtonsReady(true), 4800);
-    return () => clearTimeout(revealTimer);
+    // On the home page, wait for the intro sequence to finish before
+    // showing nav buttons. On all other pages, show immediately.
+    const isHome = window.location.pathname === '/';
+
+    if (!isHome) {
+      // Non-home pages: no intro, show buttons right away
+      setButtonsReady(true);
+      return;
+    }
+
+    // Home page: wait for the intro:done event dispatched by IntroSequence.
+    // Also keep a fallback timer in case the event never fires.
+    const onIntroDone = () => setButtonsReady(true);
+    window.addEventListener('intro:done', onIntroDone);
+    const fallback = setTimeout(() => setButtonsReady(true), 6000);
+
+    return () => {
+      window.removeEventListener('intro:done', onIntroDone);
+      clearTimeout(fallback);
+    };
   }, []);
 
   useEffect(() => {

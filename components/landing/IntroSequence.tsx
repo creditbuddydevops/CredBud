@@ -27,6 +27,8 @@ export const IntroSequence = () => {
           document.body.style.overflow = '';
           lenis?.start();
           setDone(true);
+          // Signal nav buttons to appear
+          window.dispatchEvent(new CustomEvent('intro:done'));
         },
       });
 
