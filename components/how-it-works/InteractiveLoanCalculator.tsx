@@ -175,7 +175,7 @@ export const InteractiveLoanCalculator = () => {
 
       {/* 2. Interactive Calculator Widget */}
       {/* Desktop View (>= lg) */}
-      <div className="calc-widget-container hidden lg:grid w-full grid-cols-12 brutal-card overflow-hidden" style={{ boxShadow: '8px 8px 0px #14100F' }}>
+      <div data-cursor="dot" className="calc-widget-container hidden lg:grid w-full grid-cols-12 brutal-card overflow-hidden" style={{ boxShadow: '8px 8px 0px #14100F' }}>
         
         {/* Left Panel: Purple #7B5CFF */}
         <div className="col-span-6 bg-accent-purple p-8 md:p-12 text-white flex flex-col justify-between space-y-8">
