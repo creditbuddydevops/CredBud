@@ -800,8 +800,6 @@ const MOBILE_PHASES = [
 function MobileFlow() {
   const outerRef  = useRef<HTMLDivElement>(null);
   const pinRef    = useRef<HTMLDivElement>(null);
-  const lenis     = useLenis();
-
   const [phase, setPhase]               = useState(0);
   const [isBooted, setIsBooted]         = useState(false);
   const [isHolding, setIsHolding]       = useState(false);
@@ -809,19 +807,6 @@ function MobileFlow() {
   const progressRef  = useRef(0);
   const animFrameRef = useRef<number | null>(null);
 
-  // â”€â”€ Block scroll until booted â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  useEffect(() => {
-    // Only block touchmove on mobile — never block wheel (breaks desktop scroll)
-    if (isBooted) return;
-    if (typeof window === "undefined" || window.innerWidth >= 768) return;
-    const block = (e: Event) => e.preventDefault();
-    window.addEventListener("touchmove", block, { passive: false });
-    lenis?.stop();
-    return () => {
-      window.removeEventListener("touchmove", block);
-      lenis?.start();
-    };
-  }, [isBooted, lenis]);
 
   // â”€â”€ Boot: hold 2s â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const startHolding = () => {
@@ -837,8 +822,6 @@ function MobileFlow() {
       } else {
         setIsBooted(true);
         setIsHolding(false);
-        // Unlock scroll then immediately refresh so ST measures correctly
-        lenis?.start();
         setTimeout(() => ScrollTrigger.refresh(), 50);
       }
     };
