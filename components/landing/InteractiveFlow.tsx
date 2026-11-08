@@ -798,14 +798,54 @@ const MOBILE_PHASES = [
 ];
 
 function MobileFlow() {
-  const outerRef   = useRef<HTMLDivElement>(null);
-  const pinRef     = useRef<HTMLDivElement>(null);
-  const phoneRef   = useRef<HTMLDivElement>(null);
-  const [phase, setPhase] = useState(0); // 0=borrow, 1=earn, 2=learn
+  const outerRef  = useRef<HTMLDivElement>(null);
+  const pinRef    = useRef<HTMLDivElement>(null);
+  const [phase, setPhase]               = useState(0);
+  const [isBooted, setIsBooted]         = useState(false);
+  const [isHolding, setIsHolding]       = useState(false);
+  const [bootProgress, setBootProgress] = useState(0);
+  const progressRef      = useRef(0);
+  const animFrameRef     = useRef<number | null>(null);
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
+  // ── Boot: hold 2s ──────────────────────────────────────────────────────────
+  const startHolding = () => {
+    if (isBooted) return;
+    setIsHolding(true);
+    const startTime = performance.now() - (progressRef.current / 100) * 2000;
+    const update = (now: number) => {
+      const pct = Math.min(((now - startTime) / 2000) * 100, 100);
+      progressRef.current = pct;
+      setBootProgress(pct);
+      if (pct < 100) {
+        animFrameRef.current = requestAnimationFrame(update);
+      } else {
+        setIsBooted(true);
+        setIsHolding(false);
+      }
+    };
+    animFrameRef.current = requestAnimationFrame(update);
+  };
+
+  const stopHolding = () => {
+    setIsHolding(false);
+    if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+    const startPct = progressRef.current;
+    const startTime = performance.now();
+    const decay = (now: number) => {
+      const pct = Math.max(startPct - ((now - startTime) / 350) * 100, 0);
+      progressRef.current = pct;
+      setBootProgress(pct);
+      if (pct > 0) animFrameRef.current = requestAnimationFrame(decay);
+    };
+    animFrameRef.current = requestAnimationFrame(decay);
+  };
+
+  // ── ScrollTrigger — only active after boot ─────────────────────────────────
   useEffect(() => {
+    if (!isBooted) return;
+
     const ctx = gsap.context(() => {
-      // Pin the phone+text block while scrolling through 3 * 100vh of scroll distance
       ScrollTrigger.create({
         trigger: outerRef.current,
         start: 'top top',
@@ -815,15 +855,13 @@ function MobileFlow() {
         invalidateOnRefresh: true,
       });
 
-      // Drive phase by scroll progress
-      ScrollTrigger.create({
+      scrollTriggerRef.current = ScrollTrigger.create({
         trigger: outerRef.current,
         start: 'top top',
         end: 'bottom bottom',
         scrub: true,
         onUpdate: (self) => {
           const p = self.progress;
-          // 0→0.33 = borrow, 0.33→0.66 = earn, 0.66→1 = learn
           const newPhase = p < 0.33 ? 0 : p < 0.66 ? 1 : 2;
           setPhase(prev => prev !== newPhase ? newPhase : prev);
         },
@@ -831,81 +869,168 @@ function MobileFlow() {
     }, outerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isBooted]);
 
   const current = MOBILE_PHASES[phase];
 
   return (
-    /* Outer scroll container: 3 * 100vh gives the scroll distance */
-    <div ref={outerRef} className="md:hidden relative w-full bg-ink" style={{ height: '300vh' }}>
+    <div ref={outerRef} className="md:hidden relative w-full bg-ink" style={{ height: isBooted ? '300vh' : '100vh' }}>
 
-      {/* Pinned scene — stays fixed while user scrolls */}
+      {/* Pinned scene */}
       <div
         ref={pinRef}
         className="w-full h-screen bg-ink flex flex-col items-center justify-between overflow-hidden px-5 pt-16 pb-6"
       >
-        {/* Eyebrow pill */}
-        <div className="w-full flex justify-center">
-          <span className={`font-jetbrains text-[10px] font-bold ${current.pillBg} ${current.pillText} brutal-pill px-4 py-1.5 transition-all duration-300`}>
-            {current.pill}
-          </span>
-        </div>
+        {/* ── PRE-BOOT: lock screen ── */}
+        {!isBooted && (
+          <>
+            {/* Eyebrow */}
+            <span className="font-jetbrains text-[10px] font-bold bg-accent-lime text-ink brutal-pill px-4 py-1.5">
+              // financial operating system
+            </span>
 
-        {/* Phone frame — straight, no tilt */}
-        <div
-          ref={phoneRef}
-          className="relative flex-shrink-0"
-          style={{
-            width: 220,
-            height: 440,
-            border: `3px solid ${current.screenAccent}`,
-            borderRadius: 36,
-            boxShadow: `0 0 0 1px ${current.screenAccent}40, 6px 6px 0px ${current.screenAccent}`,
-            background: current.screenBg === 'bg-ink' ? '#14100F' : '#FBF7EF',
-            overflow: 'hidden',
-            transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
-          }}
-        >
-          {/* Notch */}
-          <div
-            className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-10"
-            style={{ background: current.screenBg === 'bg-ink' ? '#000' : '#14100F' }}
-          />
-          {/* Screen content — keyed to phase for instant swap */}
-          <div key={current.key} className="w-full h-full animate-fade-in">
-            {current.screenContent}
-          </div>
-        </div>
-
-        {/* Text below phone */}
-        <div className="w-full text-center space-y-2 max-w-xs mx-auto">
-          <h2
-            className={`font-bricolage text-4xl font-extrabold uppercase tracking-tight leading-none ${current.labelColor} transition-colors duration-300`}
-          >
-            {current.label}
-          </h2>
-          <h3 className="font-bricolage text-xl font-extrabold text-white leading-tight">
-            {current.heading}
-          </h3>
-          <p className="font-jakarta text-sm text-white/60 leading-relaxed">
-            {current.desc}
-          </p>
-        </div>
-
-        {/* Progress dots */}
-        <div className="flex gap-2 items-center">
-          {MOBILE_PHASES.map((p, i) => (
+            {/* Phone with lock screen */}
             <div
-              key={p.key}
-              className="rounded-full transition-all duration-300"
+              className="relative flex-shrink-0"
               style={{
-                width:  i === phase ? 20 : 6,
-                height: 6,
-                background: i === phase ? current.screenAccent : 'rgba(255,255,255,0.2)',
+                width: 220, height: 440,
+                border: '3px solid #C8FF3D',
+                borderRadius: 36,
+                boxShadow: '0 0 0 1px rgba(200,255,61,0.25), 6px 6px 0px #C8FF3D',
+                background: '#FBF7EF',
+                overflow: 'hidden',
               }}
-            />
-          ))}
-        </div>
+            >
+              {/* Notch */}
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-10" />
+
+              {/* Lock screen content */}
+              <div className="absolute inset-0 flex flex-col items-center justify-between p-5 pt-10 pb-10 z-20 select-none">
+                {/* Status */}
+                <div className="w-full flex justify-between font-jetbrains text-[8px] text-ink-muted uppercase tracking-widest">
+                  <span>CB OS v1.2</span><span>SECURED</span>
+                </div>
+
+                {/* Logo */}
+                <div className="text-center">
+                  <h3 className="font-bricolage text-2xl font-extrabold text-ink uppercase tracking-tight">
+                    Credit<span className="text-accent-purple">Buddy</span>
+                  </h3>
+                  <p className="font-jetbrains text-[8px] text-ink-muted uppercase tracking-[0.2em] mt-1">
+                    India&apos;s Student Network
+                  </p>
+                </div>
+
+                {/* Fingerprint hold button */}
+                <div className="flex flex-col items-center gap-3">
+                  <div className="relative flex items-center justify-center">
+                    {/* Pulse rings */}
+                    {[140, 116, 96].map((size, i) => (
+                      <span key={i} className="absolute rounded-full border-2 border-accent-lime/30"
+                        style={{ width: size, height: size, animation: `ping-slow 2.4s cubic-bezier(0,0,0.2,1) ${i * 0.35}s infinite` }} />
+                    ))}
+                    <button
+                      onMouseDown={startHolding}
+                      onMouseUp={stopHolding}
+                      onMouseLeave={stopHolding}
+                      onTouchStart={(e) => { e.preventDefault(); startHolding(); }}
+                      onTouchEnd={stopHolding}
+                      className="w-16 h-16 rounded-full bg-accent-lime/20 flex items-center justify-center relative outline-none select-none"
+                      style={{
+                        border: `2px solid ${isHolding ? '#C8FF3D' : 'rgba(200,255,61,0.5)'}`,
+                        boxShadow: isHolding ? '0 0 0 4px rgba(200,255,61,0.25), 0 0 24px rgba(200,255,61,0.4)' : '0 0 0 2px rgba(200,255,61,0.1)',
+                        transform: isHolding ? 'scale(0.92)' : 'scale(1)',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                      }}
+                    >
+                      {/* Circular progress */}
+                      <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 64 64">
+                        <circle cx="32" cy="32" r="28" stroke="#C8FF3D" strokeWidth="3" fill="none"
+                          strokeDasharray={2 * Math.PI * 28}
+                          strokeDashoffset={2 * Math.PI * 28 * (1 - bootProgress / 100)}
+                          strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.05s linear' }}
+                        />
+                      </svg>
+                      <Fingerprint className={`w-7 h-7 transition-colors duration-200 ${isHolding ? 'text-accent-lime' : 'text-ink/50'}`} />
+                    </button>
+                  </div>
+
+                  <div className="text-center space-y-0.5">
+                    <p className="font-jetbrains text-[8px] font-bold uppercase tracking-[0.2em] text-accent-purple">
+                      {isHolding ? 'Booting App...' : 'Hold to Boot'}
+                    </p>
+                    <p className="font-jetbrains text-[7px] text-ink-muted uppercase tracking-wider">
+                      Keep pressed for 2 seconds
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Instruction text */}
+            <div className="text-center space-y-1 max-w-xs">
+              <h2 className="font-bricolage text-3xl font-extrabold text-white leading-tight">
+                Unlock the<br />CreditBuddy App.
+              </h2>
+              <p className="font-jakarta text-sm text-white/60">
+                Hold the fingerprint scanner to boot and unlock the scroll path.
+              </p>
+            </div>
+          </>
+        )}
+
+        {/* ── POST-BOOT: scroll-driven phases ── */}
+        {isBooted && (
+          <>
+            {/* Eyebrow pill */}
+            <div className="w-full flex justify-center">
+              <span className={`font-jetbrains text-[10px] font-bold ${current.pillBg} ${current.pillText} brutal-pill px-4 py-1.5 transition-all duration-300`}>
+                {current.pill}
+              </span>
+            </div>
+
+            {/* Phone frame */}
+            <div
+              className="relative flex-shrink-0"
+              style={{
+                width: 220, height: 440,
+                border: `3px solid ${current.screenAccent}`,
+                borderRadius: 36,
+                boxShadow: `0 0 0 1px ${current.screenAccent}40, 6px 6px 0px ${current.screenAccent}`,
+                background: current.screenBg === 'bg-ink' ? '#14100F' : '#FBF7EF',
+                overflow: 'hidden',
+                transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
+              }}
+            >
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-10"
+                style={{ background: current.screenBg === 'bg-ink' ? '#000' : '#14100F' }} />
+              <div key={current.key} className="w-full h-full animate-fade-in">
+                {current.screenContent}
+              </div>
+            </div>
+
+            {/* Text below */}
+            <div className="w-full text-center space-y-2 max-w-xs mx-auto">
+              <h2 className={`font-bricolage text-4xl font-extrabold uppercase tracking-tight leading-none ${current.labelColor} transition-colors duration-300`}>
+                {current.label}
+              </h2>
+              <h3 className="font-bricolage text-xl font-extrabold text-white leading-tight">
+                {current.heading}
+              </h3>
+              <p className="font-jakarta text-sm text-white/60 leading-relaxed">
+                {current.desc}
+              </p>
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex gap-2 items-center">
+              {MOBILE_PHASES.map((p, i) => (
+                <div key={p.key} className="rounded-full transition-all duration-300"
+                  style={{ width: i === phase ? 20 : 6, height: 6, background: i === phase ? current.screenAccent : 'rgba(255,255,255,0.2)' }} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
