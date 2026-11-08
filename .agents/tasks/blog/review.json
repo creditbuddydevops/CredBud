@@ -1,0 +1,36 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "findings": [
+    {
+      "severity": "high",
+      "file": "app/blog/[slug]/page.tsx",
+      "issue": "FAQPage JSON-LD is injected for the four BUILD_CIBIL_FAQS Q&A pairs, but no FAQ section is visibly rendered on the featured article. The only related block is the 'Common myths busted' callout, which is not Q&A and overlaps only ~2 of the 4 questions. Google's FAQ rich-result guidance requires the Q&A to be visibly present on the page; emitting FAQ structured data a reader cannot see is a policy mismatch that risks invalidated rich results or a manual action. This is also a missing deliverable: the plan (design decision 8 + step 9) called for a visible FAQ mirrored by the JSON-LD.",
+      "suggestion": "Render a visible FAQ <section> answering all four BUILD_CIBIL_FAQS questions on the featured article (e.g. after the myths callout), or remove the generateFAQPage injection so the structured data matches what is actually shown."
+    },
+    {
+      "severity": "medium",
+      "file": "public/images/blog/build-cibil-score-cover.svg",
+      "issue": "The featured cover ships as an SVG instead of the raster build-cibil-score-cover.webp the plan specified (or its green-promo.webp fallback). The SVG path is used as og:image, but Twitter/Facebook/LinkedIn crawlers do not render SVG OG images, so the featured post's social share card shows no preview (the three placeholder posts with .webp covers are unaffected). When shown on-page via <img> in BlogCover/BlogHero, the SVG also cannot use the page's @font-face, so its Bricolage/JetBrains/Jakarta text falls back to generic typefaces.",
+      "suggestion": "Export the cover as a raster PNG/JPG/WebP at 1200x630 so the fonts bake in and the OG image works; keep the SVG as a source file if desired."
+    },
+    {
+      "severity": "low",
+      "file": "components/blog/AuthorBio.tsx",
+      "issue": "The 'Connect on LinkedIn' link is the only interactive control in the blog feature without the design-system focus-visible ring; it relies on underline + hover:text-accent-purple and the browser's default focus indicator, inconsistent with every other link/button (BlogCard, back-to-blog, ShareBar).",
+      "suggestion": "Add the same focus ring used elsewhere: outline outline-0 focus-visible:outline-2 focus-visible:outline-offset-2 outline-accent-purple."
+    },
+    {
+      "severity": "low",
+      "file": "app/blog/[slug]/page.tsx",
+      "issue": "POSTS is imported from @/lib/blog/posts but never referenced in the route (getPostBySlug/getAllPostSlugs/getRelatedPosts are used instead). tsconfig has no noUnusedLocals so it does not fail the build, but it is dead code.",
+      "suggestion": "Drop POSTS from the import list."
+    },
+    {
+      "severity": "low",
+      "file": "app/blog/page.tsx",
+      "issue": "The index <main> uses a hardcoded bg-[#FBF7EF] instead of the bg-bg-primary token that the hero section inside it and the rest of the site use. Same color, but it bypasses the design token.",
+      "suggestion": "Use bg-bg-primary on the <main> for token consistency."
+    }
+  ],
+  "reviewDoc": "d:/Vibe projects/CredBud/.agents/tasks/blog/review.md"
+}

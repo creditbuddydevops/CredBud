@@ -163,7 +163,7 @@ export const ShowcaseBorrow = () => {
                     {/* App Bar */}
                     <div className="flex items-center justify-between border-b border-white/15 pb-1.5 mb-1.5">
                       <div className="flex items-center gap-2">
-                        <img src="/images/creditbuddy-logo.png" alt="CreditBuddy" className="w-5 h-5 object-contain" />
+                        <img src="/images/creditbuddy-logo.webp" alt="CreditBuddy" className="w-5 h-5 object-contain" />
                         <span className="font-bricolage text-xs font-extrabold text-accent-lime">CreditBuddy</span>
                       </div>
                       <span className="font-jetbrains text-[8px] bg-accent-purple px-2 py-0.5 rounded-full text-white font-bold">5G ACTIVE</span>

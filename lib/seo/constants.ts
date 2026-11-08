@@ -109,7 +109,7 @@ export const COLOR_INK = '#14100F' as const;
  * Absolute path (relative to `public/`) for the default Open Graph share
  * image. Should be 1200 × 630 px for optimal rendering on all platforms.
  */
-export const DEFAULT_OG_IMAGE = '/images/og-default.png' as const;
+export const DEFAULT_OG_IMAGE = '/images/og-default.webp' as const;
 
 // ---------------------------------------------------------------------------
 // Locale

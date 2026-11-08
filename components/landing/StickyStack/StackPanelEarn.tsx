@@ -81,7 +81,7 @@ export const StackPanelEarn = () => {
                 <span className="font-bricolage font-extrabold text-accent-coral text-xl md:text-2xl z-10 shrink-0">Gigs</span>
                 <div className="flex-1 flex items-center justify-center my-1 relative min-h-0 overflow-hidden">
                   <img 
-                    src="/images/gigs.png" 
+                    src="/images/gigs.webp" 
                     alt="Gigs" 
                     className="w-full h-full object-contain scale-110 md:scale-140 drop-shadow-sm pointer-events-none transition-transform duration-300" 
                   />
@@ -94,7 +94,7 @@ export const StackPanelEarn = () => {
                 <span className="font-bricolage font-extrabold text-ink text-xl md:text-2xl z-10 shrink-0">Referrals</span>
                 <div className="flex-1 flex items-center justify-center relative min-h-0 my-0">
                   <img 
-                    src="/images/referrals.png" 
+                    src="/images/referrals.webp" 
                     alt="Referrals" 
                     className="w-full h-full object-contain scale-[1.3] md:scale-[1.75] translate-x-2 md:translate-x-4 -translate-y-1 md:-translate-y-2.5 drop-shadow-sm pointer-events-none transition-transform duration-300" 
                   />
