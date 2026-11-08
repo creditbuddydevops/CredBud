@@ -811,14 +811,14 @@ function MobileFlow() {
 
   // â”€â”€ Block scroll until booted â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
+    // Only block touchmove on mobile — never block wheel (breaks desktop scroll)
     if (isBooted) return;
+    if (typeof window === "undefined" || window.innerWidth >= 768) return;
     const block = (e: Event) => e.preventDefault();
-    window.addEventListener('touchmove', block, { passive: false });
-    window.addEventListener('wheel',     block, { passive: false });
+    window.addEventListener("touchmove", block, { passive: false });
     lenis?.stop();
     return () => {
-      window.removeEventListener('touchmove', block);
-      window.removeEventListener('wheel',     block);
+      window.removeEventListener("touchmove", block);
       lenis?.start();
     };
   }, [isBooted, lenis]);
