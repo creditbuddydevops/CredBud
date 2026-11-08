@@ -41,35 +41,33 @@ export const NavSidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   // ── Nav button visibility ───────────────────────────────────────────────
-  // Hidden during intro sequence; revealed after hero loads (~5 s).
-  // Then hide on scroll-down, show on scroll-up.
   const [buttonsReady, setButtonsReady] = useState(false);
   const [buttonsVisible, setButtonsVisible] = useState(true);
   const lastScrollY = useRef(0);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // On the home page, wait for the intro sequence to finish before
-    // showing nav buttons. On all other pages, show immediately.
-    const isHome = window.location.pathname === '/';
-
-    if (!isHome) {
-      // Non-home pages: no intro, show buttons right away
+    // pathname is reactive — fires every time the route changes.
+    // When arriving at '/', immediately hide buttons and wait for intro:done.
+    // On every other page, show immediately.
+    if (pathname !== '/') {
       setButtonsReady(true);
       return;
     }
 
-    // Home page: wait for the intro:done event dispatched by IntroSequence.
-    // Also keep a fallback timer in case the event never fires.
+    // Arriving at home — hide buttons until intro finishes
+    setButtonsReady(false);
+
     const onIntroDone = () => setButtonsReady(true);
     window.addEventListener('intro:done', onIntroDone);
-    const fallback = setTimeout(() => setButtonsReady(true), 6000);
+    // Fallback: show after 7s no matter what
+    const fallback = setTimeout(() => setButtonsReady(true), 7000);
 
     return () => {
       window.removeEventListener('intro:done', onIntroDone);
       clearTimeout(fallback);
     };
-  }, []);
+  }, [pathname]); // re-runs on every route change
 
   useEffect(() => {
     if (!buttonsReady) return;
