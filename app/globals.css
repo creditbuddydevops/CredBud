@@ -392,3 +392,17 @@ body {
     display: block !important;
   }
 }
+
+/* ── Mobile performance: hide expensive decorative blur blobs ──────────── */
+/* These use CSS filter:blur() which forces GPU raster on every frame.     */
+/* They are purely decorative — hiding on mobile has zero visual impact.   */
+@media (max-width: 767px) {
+  [class*="blur-["],
+  [class*="blur-[6"],
+  [class*="blur-[8"],
+  [class*="blur-[9"],
+  [class*="blur-[10"],
+  [class*="blur-[12"] {
+    display: none !important;
+  }
+}
