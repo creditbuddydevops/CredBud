@@ -138,7 +138,7 @@ export function buildMetadata(opts: MetadataOptions): Metadata {
 
     // ── Robots ──────────────────────────────────────────────────────
     robots: opts.noIndex
-      ? { index: false, follow: false }
+      ? { index: false, follow: true }
       : {
           index: true,
           follow: true,
@@ -231,6 +231,9 @@ export function buildMetadata(opts: MetadataOptions): Metadata {
 
     // ── Category ────────────────────────────────────────────────────
     category: 'Finance',
+
+    // ── Classification ──────────────────────────────────────────────
+    classification: 'Finance, Education, Student Services',
   };
 
   return metadata;

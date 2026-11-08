@@ -1,16 +1,16 @@
 {
-  "name": "CreditBuddy",
+  "name": "CreditBuddy — India's Student-First Financial Ecosystem",
   "short_name": "CreditBuddy",
-  "description": "India's student-first financial ecosystem. Instant micro-credit, campus gigs, financial literacy, and CIBIL score building for college students.",
+  "description": "CreditBuddy is India's pioneering student-first financial ecosystem. Get instant micro-credit, earn through campus gigs, build your CIBIL score early, and master financial literacy — all designed exclusively for Indian college students.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FBF7EF",
-  "theme_color": "#FBF7EF",
+  "theme_color": "#C8FF3D",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "en-IN",
   "dir": "ltr",
-  "categories": ["finance", "education", "business"],
+  "categories": ["finance", "education", "lifestyle"],
   "icons": [
     {
       "src": "/images/favicon-square.png",

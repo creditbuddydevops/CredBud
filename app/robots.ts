@@ -29,6 +29,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/_next/',
           '/api/',
+          '/static/',
           '/*.json$',
         ],
       },

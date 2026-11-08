@@ -41,7 +41,61 @@ import { TrustSection } from '@/components/landing/TrustSection';
 import { StudentStories } from '@/components/landing/StudentStories';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { FooterShutter } from '@/components/landing/Footer/FooterShutter';
-import { generateWebPage, generateBreadcrumbList } from '@/lib/seo';
+import { buildMetadata, generateWebPage, generateBreadcrumbList, SITE_NAME, SITE_TAGLINE, SITE_DESCRIPTION } from '@/lib/seo';
+
+// ─── SEO Metadata ────────────────────────────────────────────────────────────
+
+export const metadata = buildMetadata({
+  title: `${SITE_NAME} — India's Student-First Financial Ecosystem | Borrow, Earn, Learn`,
+  description: SITE_DESCRIPTION,
+  path: '/',
+  keywords: [
+    'CreditBuddy',
+    'student fintech India',
+    'teen banking India',
+    'student credit app India',
+    'campus gig economy',
+    'CIBIL score students',
+    'financial literacy college students',
+    'student loans India',
+    'fintech startup India 2026',
+    'student micro credit',
+    'earn and repay loan',
+    'creditbuddy',
+    'student-first financial ecosystem India',
+    'instant micro-credit students',
+    'campus gig marketplace India',
+    'build CIBIL score college India',
+    'student financial platform India',
+    'campus ambassador program India',
+    'micro loan college students India',
+    'student money management India',
+    'student banking India',
+    'no collateral student loan India',
+    'RBI compliant student lending',
+    'NBFC student loans India',
+    'student digital lending India',
+    'campus economy India',
+    'student side hustle India',
+    'earn money college India',
+    'financial literacy students India',
+    'student credit history India',
+    'first credit card alternative India',
+    'student reward program India',
+    'Debasish Mallick',
+    'CreditBuddy Partners Private Limited',
+    'Sambalpur fintech',
+    'Odisha fintech startup',
+    'built by students for students',
+    'student financial inclusion India',
+    'micro credit startup India',
+    'best student loan app India',
+    'student loan without CIBIL',
+    'zero hidden charges student loan',
+    'instant student loan India',
+    'student gig jobs India',
+  ],
+});
 
 /**
  * Home page JSON-LD structured data.

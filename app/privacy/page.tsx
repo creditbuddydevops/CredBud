@@ -24,6 +24,7 @@ export const metadata = buildMetadata({
     'and protect your personal data. 256-bit encryption, no third-party data sales, ' +
     'and full GDPR/IT Act compliance.',
   path: '/privacy',
+  noIndex: true,
   keywords: [
     'CreditBuddy privacy policy',
     'CreditBuddy data protection',

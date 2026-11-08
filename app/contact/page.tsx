@@ -19,7 +19,7 @@ import { ContactHeroForm } from '@/components/contact/ContactHeroForm';
 import { ContactCompanyDetails } from '@/components/contact/ContactCompanyDetails';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { FooterShutter } from '@/components/landing/Footer/FooterShutter';
-import { buildMetadata, generateWebPage, generateContactPage } from '@/lib/seo';
+import { buildMetadata, generateWebPage, generateContactPage, generateLocalBusiness } from '@/lib/seo';
 
 // ─── SEO Metadata ────────────────────────────────────────────────────────────
 
@@ -69,6 +69,7 @@ const webPageJsonLd = JSON.stringify(
 );
 
 const contactPageJsonLd = JSON.stringify(generateContactPage());
+const localBusinessJsonLd = JSON.stringify(generateLocalBusiness());
 
 // ─── Page Component ──────────────────────────────────────────────────────────
 
@@ -90,6 +91,10 @@ export default function ContactPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: contactPageJsonLd }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: localBusinessJsonLd }}
       />
 
       <main className="relative w-full block bg-[#FAF7F2]">

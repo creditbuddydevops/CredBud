@@ -25,7 +25,7 @@ import { StudentsLearnCoinsSection } from '@/components/students/StudentsLearnCo
 import { StudentsTrustMetrics } from '@/components/students/StudentsTrustMetrics';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { FooterShutter } from '@/components/landing/Footer/FooterShutter';
-import { buildMetadata, generateWebPage } from '@/lib/seo';
+import { buildMetadata, generateWebPage, generateFinancialProduct } from '@/lib/seo';
 
 // ─── SEO Metadata ────────────────────────────────────────────────────────────
 
@@ -63,6 +63,21 @@ export const metadata = buildMetadata({
     'campus micro job marketplace',
     'student reward coins',
     'financial education India students',
+    'teen banking India',
+    'student bank account alternative India',
+    'student money management app',
+    'college fee micro loan India',
+    'hostel expense micro loan',
+    'campus digital credit India',
+    'zero collateral student credit India',
+    'NBFC student micro loan India',
+    'RBI compliant student loan India',
+    'earn gigs repay loan India',
+    'student-first lending India',
+    'college micro credit India 2026',
+    'financial wellness college India',
+    'student loan without guarantor India',
+    'no income proof student loan India',
   ],
 });
 
@@ -81,6 +96,8 @@ const webPageJsonLd = JSON.stringify(
   }),
 );
 
+const financialProductJsonLd = JSON.stringify(generateFinancialProduct());
+
 // ─── Page Component ──────────────────────────────────────────────────────────
 
 /**
@@ -98,6 +115,10 @@ export default function StudentsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: webPageJsonLd }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: financialProductJsonLd }}
       />
 
       <main className="relative w-full block bg-[#FAF7F2]">

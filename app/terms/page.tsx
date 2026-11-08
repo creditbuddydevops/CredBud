@@ -23,6 +23,7 @@ export const metadata = buildMetadata({
     'Covers eligibility, student verification, lending partner compliance with RBI guidelines, ' +
     'user responsibilities, repayment terms, and grievance redressal.',
   path: '/terms',
+  noIndex: true,
   keywords: [
     'CreditBuddy terms and conditions',
     'CreditBuddy user agreement',

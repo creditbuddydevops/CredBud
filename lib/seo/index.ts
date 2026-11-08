@@ -25,6 +25,9 @@ export {
   generateAmbassadorService,
   generateContactPage,
   generateAboutPage,
+  generateFounderPerson,
+  generateLocalBusiness,
+  generateSoftwareApplication,
 } from './structured-data';
 
 export type {
@@ -53,4 +56,12 @@ export {
   DEFAULT_OG_IMAGE,
   DEFAULT_LOCALE,
   HTML_LANG,
+  KEYWORDS_BRAND,
+  KEYWORDS_PRODUCT,
+  KEYWORDS_FINTECH_INDUSTRY,
+  KEYWORDS_CREDIT_LITERACY,
+  KEYWORDS_DEMOGRAPHIC,
+  KEYWORDS_GEOGRAPHIC,
+  KEYWORDS_LONG_TAIL,
+  ALL_KEYWORDS,
 } from './constants';

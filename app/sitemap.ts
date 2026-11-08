@@ -54,7 +54,7 @@ const blogPostEntries: MetadataRoute.Sitemap = getAllPostSlugs().map(
       url: url(`/blog/${slug}`),
       lastModified: post ? new Date(post.date) : TODAY,
       changeFrequency: 'monthly',
-      priority: 0.6,
+      priority: 0.75,
       images: [cover],
     };
   },
@@ -78,14 +78,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: url('/how-it-works'),
       lastModified: TODAY,
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.9,
       images: [ogImageUrl],
     },
     {
       url: url('/students'),
       lastModified: TODAY,
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.9,
       images: [ogImageUrl],
     },
@@ -95,14 +95,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: url('/ambassador'),
       lastModified: LAUNCH,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.85,
       images: [ogImageUrl],
     },
     {
       url: url('/about'),
       lastModified: LAUNCH,
-      changeFrequency: 'monthly',
-      priority: 0.8,
+      changeFrequency: 'weekly',
+      priority: 0.95,
       images: [ogImageUrl],
     },
 
@@ -110,8 +110,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: url('/blog'),
       lastModified: TODAY,
-      changeFrequency: 'weekly',
-      priority: 0.7,
+      changeFrequency: 'daily',
+      priority: 0.8,
       images: [ogImageUrl],
     },
 

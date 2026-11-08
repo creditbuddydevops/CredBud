@@ -23,6 +23,7 @@ export const metadata = buildMetadata({
     'Covers fee refunds for system failures, excess repayment credits, and the process ' +
     'to initiate refund claims with transaction reference IDs.',
   path: '/refund-policy',
+  noIndex: true,
   keywords: [
     'CreditBuddy refund policy',
     'CreditBuddy cancellation policy',

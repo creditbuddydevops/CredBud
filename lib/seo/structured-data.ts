@@ -249,6 +249,8 @@ export interface BlogPostingOptions {
   path: string;
   /** Author's full name. */
   author: string;
+  /** Optional URL for the author profile. */
+  authorUrl?: string;
   /** ISO 8601 date of publication. */
   datePublished: string;
   /** ISO 8601 date of last modification (defaults to `datePublished`). */
@@ -279,8 +281,17 @@ export function generateBlogPosting(opts: BlogPostingOptions) {
     author: {
       '@type': 'Person',
       name: opts.author,
+      ...(opts.authorUrl && { url: opts.authorUrl }),
     },
-    publisher: { '@id': `${SITE_URL}/#organization` },
+    publisher: {
+      '@id': `${SITE_URL}/#organization`,
+      '@type': 'Organization',
+      name: SITE_NAME,
+      logo: {
+        '@type': 'ImageObject',
+        url: abs('/images/creditbuddy-logo.png'),
+      },
+    },
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': abs(opts.path),
@@ -437,5 +448,135 @@ export function generateAboutPage() {
       '@type': 'Organization',
       '@id': `${SITE_URL}/#organization`,
     },
+  };
+}
+
+// ─── Person (Founder) ─────────────────────────────────────────────────────────
+
+/**
+ * Generate Schema.org `Person` structured data for Debasish Mallick,
+ * Founder & CEO of CreditBuddy. Used on the About page.
+ */
+export function generateFounderPerson() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${SITE_URL}/#founder`,
+    name: 'Debasish Mallick',
+    jobTitle: 'Founder & CEO',
+    worksFor: { '@id': `${SITE_URL}/#organization` },
+    url: abs('/about'),
+    sameAs: [
+      'https://linkedin.com/in/debasish-mallick',
+    ],
+    knowsAbout: [
+      'Student Fintech',
+      'Micro-Credit',
+      'Campus Gig Economy',
+      'Financial Literacy',
+      'CIBIL Score Building',
+      'Student Financial Inclusion',
+    ],
+    nationality: {
+      '@type': 'Country',
+      name: 'India',
+    },
+  };
+}
+
+// ─── LocalBusiness ────────────────────────────────────────────────────────────
+
+/**
+ * Generate Schema.org `LocalBusiness` structured data for the
+ * CreditBuddy registered office in Sambalpur, Odisha.
+ */
+export function generateLocalBusiness() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${SITE_URL}/#localbusiness`,
+    name: SITE_NAME,
+    legalName: LEGAL_ENTITY_NAME,
+    url: SITE_URL,
+    image: abs(DEFAULT_OG_IMAGE),
+    logo: abs('/images/creditbuddy-logo.png'),
+    description: SITE_DESCRIPTION,
+    address: {
+      '@type': 'PostalAddress',
+      ...COMPANY_ADDRESS,
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 21.4669,
+      longitude: 83.9756,
+    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        email: CONTACT_EMAILS[0],
+        contactType: 'customer service',
+        areaServed: 'IN',
+        availableLanguage: ['English', 'Hindi'],
+      },
+    ],
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '09:00',
+        closes: '18:00',
+      },
+    ],
+    sameAs: Object.values(SOCIAL_LINKS),
+    priceRange: 'Free to join',
+    currenciesAccepted: 'INR',
+    paymentAccepted: 'UPI, Net Banking',
+    areaServed: {
+      '@type': 'Country',
+      name: 'India',
+    },
+  };
+}
+
+// ─── SoftwareApplication ─────────────────────────────────────────────────────
+
+/**
+ * Generate Schema.org `SoftwareApplication` structured data for the
+ * CreditBuddy mobile application.
+ */
+export function generateSoftwareApplication() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    '@id': `${SITE_URL}/#app`,
+    name: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Android, iOS',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    inLanguage: 'en-IN',
+    audience: {
+      '@type': 'EducationalAudience',
+      educationalRole: 'student',
+    },
+    screenshot: abs(DEFAULT_OG_IMAGE),
+    featureList: [
+      'Instant student micro-credit',
+      'Campus gig marketplace',
+      'CIBIL score building',
+      'Financial literacy modules',
+      'Earn and repay loans',
+      'Campus ambassador program',
+      'Zero hidden charges',
+      'RBI compliant NBFC partnerships',
+    ],
+    keywords: 'student credit, micro loans, campus gigs, CIBIL score, financial literacy, India',
+    countryOfOrigin: 'IN',
   };
 }

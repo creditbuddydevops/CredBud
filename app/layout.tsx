@@ -32,6 +32,7 @@ import {
   generateOrganization,
   generateWebSite,
   generateFinancialProduct,
+  generateSoftwareApplication,
   SITE_NAME,
   SITE_DESCRIPTION,
   SITE_URL,
@@ -173,6 +174,7 @@ export const metadata: Metadata = buildMetadata({
 const organizationJsonLd = JSON.stringify(generateOrganization());
 const webSiteJsonLd = JSON.stringify(generateWebSite());
 const financialProductJsonLd = JSON.stringify(generateFinancialProduct());
+const softwareApplicationJsonLd = JSON.stringify(generateSoftwareApplication());
 
 // ─── Layout Component ────────────────────────────────────────────────────────
 
@@ -201,6 +203,12 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
+        {/* ── Apple Touch Icon ──────────────────────────────────── */}
+        <link rel="apple-touch-icon" href="/images/favicon-square.png" />
+
+        {/* ── Application Name ──────────────────────────────────── */}
+        <meta name="application-name" content="CreditBuddy" />
+
         {/* ── Structured Data: Organization ─────────────────────── */}
         <script
           type="application/ld+json"
@@ -217,6 +225,12 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: financialProductJsonLd }}
+        />
+
+        {/* ── Structured Data: SoftwareApplication ────────────── */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: softwareApplicationJsonLd}}
         />
       </head>
 
