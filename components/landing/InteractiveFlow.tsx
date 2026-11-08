@@ -588,7 +588,7 @@ export const InteractiveFlow = () => {
                       <div className="flex justify-between items-start">
                         <div>
                           <span className="text-[7px] text-bg-primary/50 uppercase tracking-widest font-bold font-jetbrains">Total Balance</span>
-                          <h4 className="font-bricolage text-lg font-extrabold text-bg-primary mt-0.5">â‚¹14,500</h4>
+                          <h4 className="font-bricolage text-lg font-extrabold text-bg-primary mt-0.5">₹14,500</h4>
                         </div>
                         <Wallet className="w-4 h-4 text-accent-lime" />
                       </div>
@@ -697,7 +697,7 @@ const MOBILE_PHASES = [
         <div className="flex flex-col items-center gap-3">
           <div className="w-full bg-accent-lime/10 border border-accent-lime rounded-2xl p-3">
             <p className="font-jetbrains text-[8px] text-ink-muted uppercase tracking-widest mb-1">Credit Available</p>
-            <p className="font-bricolage text-2xl font-extrabold text-ink">â‚¹50,000</p>
+            <p className="font-bricolage text-2xl font-extrabold text-ink">₹50,000</p>
             <div className="w-full h-1.5 bg-ink/10 rounded-full mt-2">
               <div className="h-full w-1/4 bg-accent-lime rounded-full" />
             </div>
@@ -742,9 +742,9 @@ const MOBILE_PHASES = [
         </div>
         <div className="flex flex-col gap-2">
           {[
-            { role: 'Brand Ambassador', earn: 'â‚¹2,000/mo', tag: 'Hot' },
-            { role: 'Survey Responder', earn: 'â‚¹500/task', tag: 'New' },
-            { role: 'Referral Drive', earn: 'â‚¹300/refer', tag: '' },
+            { role: 'Brand Ambassador', earn: '₹2,000/mo', tag: 'Hot' },
+            { role: 'Survey Responder', earn: '₹500/task', tag: 'New' },
+            { role: 'Referral Drive', earn: '₹300/refer', tag: '' },
           ].map((g, i) => (
             <div key={i} className="flex items-center justify-between bg-white/10 border border-white/10 rounded-xl p-2.5">
               <div>
