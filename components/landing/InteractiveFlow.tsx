@@ -22,11 +22,18 @@ export const InteractiveFlow = () => {
   const [bootProgress, setBootProgress] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
 
+  // Gate all desktop-only logic — on mobile this component renders nothing
+  // meaningful (hidden md:block) so we skip every effect that could interfere
+  const isMobileRef = useRef(
+    typeof window !== 'undefined' && window.innerWidth < 768
+  );
+
   const progressRef = useRef(0);
   const animationFrameRef = useRef<number | null>(null);
 
   // 1. Lock/Unlock scrolling side effects
   useEffect(() => {
+    if (isMobileRef.current) return; // mobile handled by MobileFlow
     const preventScroll = (e: Event) => {
       e.preventDefault();
     };
@@ -68,6 +75,7 @@ export const InteractiveFlow = () => {
 
   // 2. Snap-lock trigger (runs only when device is unbooted)
   useEffect(() => {
+    if (isMobileRef.current) return; // mobile handled by MobileFlow
     if (isBooted) return;
 
     const lockTrigger = ScrollTrigger.create({
@@ -109,6 +117,7 @@ export const InteractiveFlow = () => {
 
   // Listen to lenis scroll directly for snap-locking to prevent fast scrolling bypass
   useLenis((lenisInstance) => {
+    if (isMobileRef.current) return; // mobile handled by MobileFlow
     if (!isBooted && !isLocked && typeof window !== 'undefined' && window.innerWidth >= 768) {
       const topOfSection = outerContainerRef.current?.offsetTop || 0;
       if (topOfSection > 0 && lenisInstance.scroll >= topOfSection - 10) {
@@ -173,6 +182,7 @@ export const InteractiveFlow = () => {
 
   // 4. Scroll triggered sequence (Active only after booted)
   useEffect(() => {
+    if (isMobileRef.current) return; // mobile handled by MobileFlow
     if (!isBooted) return;
 
     let ctx = gsap.context(() => {
