@@ -852,31 +852,32 @@ function MobileFlow() {
     animFrameRef.current = requestAnimationFrame(decay);
   };
 
-  // â”€â”€ ScrollTrigger â€” set up once on mount, always active â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ScrollTrigger: use ref for isBooted to avoid stale closure
+  const isBootedRef = useRef(false);
+  useEffect(() => { isBootedRef.current = isBooted; }, [isBooted]);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: outerRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
+        start: "top top",
+        end: "bottom bottom",
         pin: pinRef.current,
         invalidateOnRefresh: true,
       });
-
       ScrollTrigger.create({
         trigger: outerRef.current,
-        start: 'top top',
-        end: 'bottom bottom',
+        start: "top top",
+        end: "bottom bottom",
         scrub: 0.5,
         onUpdate: (self) => {
-          if (!isBooted) return; // ignore scroll updates until booted
+          if (!isBootedRef.current) return;
           const p = self.progress;
           const newPhase = p < 0.33 ? 0 : p < 0.66 ? 1 : 2;
           setPhase(prev => prev !== newPhase ? newPhase : prev);
         },
       });
     }, outerRef);
-
     return () => ctx.revert();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -890,7 +891,7 @@ function MobileFlow() {
       {/* Pinned scene */}
       <div
         ref={pinRef}
-        className="w-full h-screen bg-ink flex flex-col items-center justify-between overflow-hidden px-5 pt-16 pb-6"
+        className="w-full h-screen bg-ink flex flex-col items-center justify-between overflow-hidden px-5 pt-20 pb-4"
       >
         {/* â”€â”€ PRE-BOOT: lock screen â”€â”€ */}
         {!isBooted && (
@@ -957,40 +958,29 @@ function MobileFlow() {
             </div>
           </>
         )}
-
-        {/* â”€â”€ POST-BOOT: scroll-driven phases â”€â”€ */}
         {isBooted && (
           <>
-            <div className="w-full flex justify-center">
-              <span className={`font-jetbrains text-[10px] font-bold ${current.pillBg} ${current.pillText} brutal-pill px-4 py-1.5 transition-all duration-300`}>
-                {current.pill}
-              </span>
-            </div>
-
-            <div className="relative flex-shrink-0" style={{ width: 220, height: 440, border: `3px solid ${current.screenAccent}`, borderRadius: 36, boxShadow: `0 0 0 1px ${current.screenAccent}40, 6px 6px 0px ${current.screenAccent}`, background: current.screenBg === 'bg-ink' ? '#14100F' : '#FBF7EF', overflow: 'hidden', transition: 'border-color 0.4s ease, box-shadow 0.4s ease' }}>
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 rounded-full z-10"
-                style={{ background: current.screenBg === 'bg-ink' ? '#000' : '#14100F' }} />
+            <div className="relative flex-shrink-0 mt-2" style={{ width: 200, height: 380, border: `3px solid ${current.screenAccent}`, borderRadius: 36, boxShadow: `0 0 0 1px ${current.screenAccent}40, 6px 6px 0px ${current.screenAccent}`, background: current.screenBg === "bg-ink" ? "#14100F" : "#FBF7EF", overflow: "hidden", transition: "border-color 0.4s ease, box-shadow 0.4s ease" }}>
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-14 h-3.5 rounded-full z-10" style={{ background: current.screenBg === "bg-ink" ? "#000" : "#14100F" }} />
               <div key={current.key} className="w-full h-full animate-fade-in">
                 {current.screenContent}
               </div>
             </div>
-
-            <div className="w-full text-center space-y-2 max-w-xs mx-auto">
-              <h2 className={`font-bricolage text-4xl font-extrabold uppercase tracking-tight leading-none ${current.labelColor} transition-colors duration-300`}>
+            <div className="w-full text-center max-w-xs mx-auto px-2">
+              <h2 className={`font-bricolage text-4xl font-extrabold uppercase tracking-tight leading-none mb-1 ${current.labelColor} transition-colors duration-300`}>
                 {current.label}
               </h2>
-              <h3 className="font-bricolage text-xl font-extrabold text-white leading-tight">
+              <h3 className="font-bricolage text-lg font-extrabold text-white leading-tight mb-1">
                 {current.heading}
               </h3>
-              <p className="font-jakarta text-sm text-white/60 leading-relaxed">
+              <p className="font-jakarta text-xs text-white/60 leading-relaxed line-clamp-2">
                 {current.desc}
               </p>
             </div>
-
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center pb-1">
               {MOBILE_PHASES.map((p, i) => (
                 <div key={p.key} className="rounded-full transition-all duration-300"
-                  style={{ width: i === phase ? 20 : 6, height: 6, background: i === phase ? current.screenAccent : 'rgba(255,255,255,0.2)' }} />
+                  style={{ width: i === phase ? 20 : 6, height: 6, background: i === phase ? current.screenAccent : "rgba(255,255,255,0.2)" }} />
               ))}
             </div>
           </>

@@ -12,34 +12,38 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const lenisRef = useRef<any>(null);
 
   useEffect(() => {
+    // Drive Lenis via GSAP ticker so both are in sync on one rAF loop
     function update(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
     }
-
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
-    // Lenis initializes async — wait a tick before wiring ScrollTrigger
+    // One-time refresh after Lenis boots so ScrollTrigger measures correctly
     const timer = setTimeout(() => {
-      const lenis = lenisRef.current?.lenis;
-      if (lenis) {
-        lenis.on('scroll', ScrollTrigger.update);
-        ScrollTrigger.refresh();
-      }
-    }, 100);
+      ScrollTrigger.refresh();
+    }, 200);
 
     return () => {
       clearTimeout(timer);
       gsap.ticker.remove(update);
-      const lenis = lenisRef.current?.lenis;
-      if (lenis) {
-        lenis.off('scroll', ScrollTrigger.update);
-      }
     };
   }, []);
 
   return (
-    <ReactLenis root ref={lenisRef} autoRaf={false} options={{ smoothWheel: true, duration: 1.2 }}>
+    <ReactLenis
+      root
+      ref={lenisRef}
+      autoRaf={false}
+      options={{
+        smoothWheel: true,
+        duration: 1.2,
+        // Reduce touch multiplier on mobile so flings don't overshoot
+        touchMultiplier: 1.5,
+        // Infinite scroll inertia causes jank on mobile — cap it
+        infinite: false,
+      }}
+    >
       {/* @ts-expect-error Type mismatch between React 18 and 19 */}
       {children}
     </ReactLenis>

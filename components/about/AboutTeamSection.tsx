@@ -49,11 +49,13 @@ export const AboutTeamSection = () => {
       );
     }, containerRef);
 
-    // ── 3D tilt + holographic shine ──────────────────────────────────────
+    // ── 3D tilt + holographic shine — desktop only ───────────────────────
     const card = cardWrapRef.current;
     const shine = shineRef.current;
     const glint = glintRef.current;
     if (!card) return () => ctx.revert();
+    // Skip tilt entirely on mobile — no hover events and too janky
+    if (typeof window !== 'undefined' && window.innerWidth < 768) return () => ctx.revert();
 
     const handleMove = (e: MouseEvent) => {
       if (rafRef.current) return;

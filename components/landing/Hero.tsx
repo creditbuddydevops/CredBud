@@ -9,9 +9,10 @@ export const Hero = () => {
   const [textHovered, setTextHovered] = useState(false);
 
   useEffect(() => {
-    // 1. Mouse movement tilt & bulge effect (Fisheye lens simulation for the whole section)
+    // 1. Mouse movement tilt — desktop only (no mouse on mobile)
     const container = containerRef.current;
     if (!container) return;
+    const isMobile = window.innerWidth < 768;
 
     let rafId: number | null = null;
     const handleMouseMove = (e: MouseEvent) => {
@@ -62,42 +63,33 @@ export const Hero = () => {
 
     // 2. Entrance Animations with GSAP Context
     const ctx = gsap.context(() => {
-      // 3D Twisted Letter Entrance
-      gsap.fromTo(
-        '.char-node',
-        {
-          opacity: 0,
-          y: 90,
-          rotateX: -140,
-          rotateY: 180,
-          scale: 0.2,
-          skewX: 45,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          rotateY: 0,
-          scale: 1,
-          skewX: 0,
-          duration: 1.8,
-          stagger: 0.025,
-          ease: 'elastic.out(1, 0.75)',
-          delay: 0.35,
-        }
-      );
+      if (isMobile) {
+        // Mobile: simple fade-in, no 3D transforms (too heavy)
+        gsap.fromTo('.char-node',
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.6, stagger: 0.015, ease: 'power2.out', delay: 0.2 }
+        );
+      } else {
+        // Desktop: full 3D twisted letter entrance
+        gsap.fromTo(
+          '.char-node',
+          { opacity: 0, y: 90, rotateX: -140, rotateY: 180, scale: 0.2, skewX: 45 },
+          { opacity: 1, y: 0, rotateX: 0, rotateY: 0, scale: 1, skewX: 0,
+            duration: 1.8, stagger: 0.025, ease: 'elastic.out(1, 0.75)', delay: 0.35 }
+        );
+      }
 
-      // Reveal other UI elements inside TV Screen
+      // Reveal other UI elements
       gsap.fromTo(
         '.hero-reveal-delayed',
         { opacity: 0, y: 25 },
         {
           opacity: 1,
           y: 0,
-          duration: 1.1,
+          duration: isMobile ? 0.5 : 1.1,
           ease: 'power3.out',
           stagger: 0.15,
-          delay: 1.1,
+          delay: isMobile ? 0.4 : 1.1,
         }
       );
     }, containerRef);
