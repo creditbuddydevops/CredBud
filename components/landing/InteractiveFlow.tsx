@@ -319,7 +319,7 @@ export const InteractiveFlow = () => {
 
   return (
     <>
-    {/* â”€â”€ DESKTOP VERSION (md+) â”€â”€ unchanged */}
+    {/* —— DESKTOP VERSION (md+) —— unchanged */}
     <div ref={outerContainerRef} className="hidden md:block relative w-full min-h-[400vh] bg-ink">
       
       {/* Full-viewport scene display container */}
@@ -460,7 +460,7 @@ export const InteractiveFlow = () => {
 
                       {/* Pulsing attention rings */}
                       <div className="relative flex items-center justify-center">
-                        {/* Ring 3 â€” outermost, slowest */}
+                        {/* Ring 3 – outermost, slowest */}
                         <span
                           className="absolute rounded-full border-2 border-accent-lime/20"
                           style={{
@@ -476,7 +476,7 @@ export const InteractiveFlow = () => {
                             animation: 'ping-slow 2.4s cubic-bezier(0,0,0.2,1) 0.35s infinite',
                           }}
                         />
-                        {/* Ring 1 â€” closest */}
+                        {/* Ring 1 – closest */}
                         <span
                           className="absolute rounded-full border-2 border-accent-lime/55"
                           style={{
@@ -661,15 +661,15 @@ export const InteractiveFlow = () => {
       </svg>
     </div>
 
-    {/* â”€â”€ MOBILE VERSION (< md) â”€â”€ straight phone, scroll-driven screen swap */}
+    {/* —— MOBILE VERSION (< md) —— straight phone, scroll-driven screen swap */}
     <MobileFlow />
     </>
   );
 };
 
-// â”€â”€â”€ Mobile Flow Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ——— Mobile Flow Component —————————————————————————————————————————————————
 // Straight phone, no fingerprint gate. Screen content swaps via ScrollTrigger
-// scrub as user scrolls through 3 pinned phases (Borrow â†’ Earn â†’ Learn).
+// scrub as user scrolls through 3 pinned phases (Borrow → Earn → Learn).
 // Text label + description lives below the phone frame.
 
 const MOBILE_PHASES = [
@@ -681,7 +681,7 @@ const MOBILE_PHASES = [
     pillText: 'text-ink',
     labelColor: 'text-accent-lime',
     heading: 'Need Instant Cash?',
-    desc: 'Tuition, exam fees, or campus needs â€” get approved in 60 seconds with 0% interest for the first 30 days.',
+    desc: 'Tuition, exam fees, or campus needs – get approved in 60 seconds with 0% interest for the first 30 days.',
     screenBg: 'bg-bg-primary',
     screenAccent: '#C8FF3D',
     screenContent: (
@@ -714,7 +714,7 @@ const MOBILE_PHASES = [
           </div>
         </div>
         <button className="w-full py-2.5 bg-accent-lime brutal-border rounded-full font-bricolage font-bold text-sm text-ink">
-          Borrow Now â†’
+          Borrow Now →
         </button>
       </div>
     ),
@@ -756,7 +756,7 @@ const MOBILE_PHASES = [
           ))}
         </div>
         <button className="w-full py-2.5 bg-accent-gold border-2 border-ink rounded-full font-bricolage font-bold text-sm text-ink">
-          Browse Gigs â†’
+          Browse Gigs →
         </button>
       </div>
     ),
@@ -800,7 +800,7 @@ const MOBILE_PHASES = [
           ))}
         </div>
         <button className="w-full py-2.5 bg-accent-purple brutal-border rounded-full font-bricolage font-bold text-sm text-white">
-          Start Learning â†’
+          Start Learning →
         </button>
       </div>
     ),
@@ -818,7 +818,7 @@ function MobileFlow() {
   const animFrameRef = useRef<number | null>(null);
 
 
-  // â”€â”€ Boot: hold 2s â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // —— Boot: hold 2s ——————————————————————————————————————————————————————————
   const startHolding = () => {
     if (isBooted) return;
     setIsHolding(true);
@@ -885,7 +885,7 @@ function MobileFlow() {
   const current = MOBILE_PHASES[phase];
 
   return (
-    // Always 300vh â€” no dynamic height change that breaks GSAP measurements
+    // Always 300vh – no dynamic height change that breaks GSAP measurements
     <div ref={outerRef} className="md:hidden relative w-full bg-ink" style={{ height: '300vh' }}>
 
       {/* Pinned scene */}
@@ -893,7 +893,7 @@ function MobileFlow() {
         ref={pinRef}
         className="w-full h-screen bg-ink flex flex-col items-center justify-between overflow-hidden px-5 pt-20 pb-4"
       >
-        {/* â”€â”€ PRE-BOOT: lock screen â”€â”€ */}
+        {/* —— PRE-BOOT: lock screen —— */}
         {!isBooted && (
           <>
             <span className="font-jetbrains text-[10px] font-bold bg-accent-lime text-ink brutal-pill px-4 py-1.5">
