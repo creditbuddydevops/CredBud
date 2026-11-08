@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
 import gsap from 'gsap';
@@ -309,7 +309,7 @@ export const InteractiveFlow = () => {
 
   return (
     <>
-    {/* ── DESKTOP VERSION (md+) ── unchanged */}
+    {/* â”€â”€ DESKTOP VERSION (md+) â”€â”€ unchanged */}
     <div ref={outerContainerRef} className="hidden md:block relative w-full min-h-[400vh] bg-ink">
       
       {/* Full-viewport scene display container */}
@@ -450,7 +450,7 @@ export const InteractiveFlow = () => {
 
                       {/* Pulsing attention rings */}
                       <div className="relative flex items-center justify-center">
-                        {/* Ring 3 — outermost, slowest */}
+                        {/* Ring 3 â€” outermost, slowest */}
                         <span
                           className="absolute rounded-full border-2 border-accent-lime/20"
                           style={{
@@ -466,7 +466,7 @@ export const InteractiveFlow = () => {
                             animation: 'ping-slow 2.4s cubic-bezier(0,0,0.2,1) 0.35s infinite',
                           }}
                         />
-                        {/* Ring 1 — closest */}
+                        {/* Ring 1 â€” closest */}
                         <span
                           className="absolute rounded-full border-2 border-accent-lime/55"
                           style={{
@@ -578,7 +578,7 @@ export const InteractiveFlow = () => {
                       <div className="flex justify-between items-start">
                         <div>
                           <span className="text-[7px] text-bg-primary/50 uppercase tracking-widest font-bold font-jetbrains">Total Balance</span>
-                          <h4 className="font-bricolage text-lg font-extrabold text-bg-primary mt-0.5">₹14,500</h4>
+                          <h4 className="font-bricolage text-lg font-extrabold text-bg-primary mt-0.5">â‚¹14,500</h4>
                         </div>
                         <Wallet className="w-4 h-4 text-accent-lime" />
                       </div>
@@ -651,15 +651,15 @@ export const InteractiveFlow = () => {
       </svg>
     </div>
 
-    {/* ── MOBILE VERSION (< md) ── straight phone, scroll-driven screen swap */}
+    {/* â”€â”€ MOBILE VERSION (< md) â”€â”€ straight phone, scroll-driven screen swap */}
     <MobileFlow />
     </>
   );
 };
 
-// ─── Mobile Flow Component ─────────────────────────────────────────────────
+// â”€â”€â”€ Mobile Flow Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Straight phone, no fingerprint gate. Screen content swaps via ScrollTrigger
-// scrub as user scrolls through 3 pinned phases (Borrow → Earn → Learn).
+// scrub as user scrolls through 3 pinned phases (Borrow â†’ Earn â†’ Learn).
 // Text label + description lives below the phone frame.
 
 const MOBILE_PHASES = [
@@ -671,7 +671,7 @@ const MOBILE_PHASES = [
     pillText: 'text-ink',
     labelColor: 'text-accent-lime',
     heading: 'Need Instant Cash?',
-    desc: 'Tuition, exam fees, or campus needs — get approved in 60 seconds with 0% interest for the first 30 days.',
+    desc: 'Tuition, exam fees, or campus needs â€” get approved in 60 seconds with 0% interest for the first 30 days.',
     screenBg: 'bg-bg-primary',
     screenAccent: '#C8FF3D',
     screenContent: (
@@ -687,7 +687,7 @@ const MOBILE_PHASES = [
         <div className="flex flex-col items-center gap-3">
           <div className="w-full bg-accent-lime/10 border border-accent-lime rounded-2xl p-3">
             <p className="font-jetbrains text-[8px] text-ink-muted uppercase tracking-widest mb-1">Credit Available</p>
-            <p className="font-bricolage text-2xl font-extrabold text-ink">₹50,000</p>
+            <p className="font-bricolage text-2xl font-extrabold text-ink">â‚¹50,000</p>
             <div className="w-full h-1.5 bg-ink/10 rounded-full mt-2">
               <div className="h-full w-1/4 bg-accent-lime rounded-full" />
             </div>
@@ -704,7 +704,7 @@ const MOBILE_PHASES = [
           </div>
         </div>
         <button className="w-full py-2.5 bg-accent-lime brutal-border rounded-full font-bricolage font-bold text-sm text-ink">
-          Borrow Now →
+          Borrow Now â†’
         </button>
       </div>
     ),
@@ -732,9 +732,9 @@ const MOBILE_PHASES = [
         </div>
         <div className="flex flex-col gap-2">
           {[
-            { role: 'Brand Ambassador', earn: '₹2,000/mo', tag: 'Hot' },
-            { role: 'Survey Responder', earn: '₹500/task', tag: 'New' },
-            { role: 'Referral Drive', earn: '₹300/refer', tag: '' },
+            { role: 'Brand Ambassador', earn: 'â‚¹2,000/mo', tag: 'Hot' },
+            { role: 'Survey Responder', earn: 'â‚¹500/task', tag: 'New' },
+            { role: 'Referral Drive', earn: 'â‚¹300/refer', tag: '' },
           ].map((g, i) => (
             <div key={i} className="flex items-center justify-between bg-white/10 border border-white/10 rounded-xl p-2.5">
               <div>
@@ -746,7 +746,7 @@ const MOBILE_PHASES = [
           ))}
         </div>
         <button className="w-full py-2.5 bg-accent-gold border-2 border-ink rounded-full font-bricolage font-bold text-sm text-ink">
-          Browse Gigs →
+          Browse Gigs â†’
         </button>
       </div>
     ),
@@ -790,7 +790,7 @@ const MOBILE_PHASES = [
           ))}
         </div>
         <button className="w-full py-2.5 bg-accent-purple brutal-border rounded-full font-bricolage font-bold text-sm text-white">
-          Start Learning →
+          Start Learning â†’
         </button>
       </div>
     ),
@@ -800,15 +800,30 @@ const MOBILE_PHASES = [
 function MobileFlow() {
   const outerRef  = useRef<HTMLDivElement>(null);
   const pinRef    = useRef<HTMLDivElement>(null);
+  const lenis     = useLenis();
+
   const [phase, setPhase]               = useState(0);
   const [isBooted, setIsBooted]         = useState(false);
   const [isHolding, setIsHolding]       = useState(false);
   const [bootProgress, setBootProgress] = useState(0);
-  const progressRef      = useRef(0);
-  const animFrameRef     = useRef<number | null>(null);
-  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
+  const progressRef  = useRef(0);
+  const animFrameRef = useRef<number | null>(null);
 
-  // ── Boot: hold 2s ──────────────────────────────────────────────────────────
+  // â”€â”€ Block scroll until booted â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  useEffect(() => {
+    if (isBooted) return;
+    const block = (e: Event) => e.preventDefault();
+    window.addEventListener('touchmove', block, { passive: false });
+    window.addEventListener('wheel',     block, { passive: false });
+    lenis?.stop();
+    return () => {
+      window.removeEventListener('touchmove', block);
+      window.removeEventListener('wheel',     block);
+      lenis?.start();
+    };
+  }, [isBooted, lenis]);
+
+  // â”€â”€ Boot: hold 2s â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const startHolding = () => {
     if (isBooted) return;
     setIsHolding(true);
@@ -822,6 +837,9 @@ function MobileFlow() {
       } else {
         setIsBooted(true);
         setIsHolding(false);
+        // Unlock scroll then immediately refresh so ST measures correctly
+        lenis?.start();
+        setTimeout(() => ScrollTrigger.refresh(), 50);
       }
     };
     animFrameRef.current = requestAnimationFrame(update);
@@ -841,26 +859,24 @@ function MobileFlow() {
     animFrameRef.current = requestAnimationFrame(decay);
   };
 
-  // ── ScrollTrigger — only active after boot ─────────────────────────────────
+  // â”€â”€ ScrollTrigger â€” set up once on mount, always active â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   useEffect(() => {
-    if (!isBooted) return;
-
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: outerRef.current,
         start: 'top top',
         end: 'bottom bottom',
         pin: pinRef.current,
-        pinSpacing: false,
         invalidateOnRefresh: true,
       });
 
-      scrollTriggerRef.current = ScrollTrigger.create({
+      ScrollTrigger.create({
         trigger: outerRef.current,
         start: 'top top',
         end: 'bottom bottom',
-        scrub: true,
+        scrub: 0.5,
         onUpdate: (self) => {
+          if (!isBooted) return; // ignore scroll updates until booted
           const p = self.progress;
           const newPhase = p < 0.33 ? 0 : p < 0.66 ? 1 : 2;
           setPhase(prev => prev !== newPhase ? newPhase : prev);
@@ -869,49 +885,34 @@ function MobileFlow() {
     }, outerRef);
 
     return () => ctx.revert();
-  }, [isBooted]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const current = MOBILE_PHASES[phase];
 
   return (
-    <div ref={outerRef} className="md:hidden relative w-full bg-ink" style={{ height: isBooted ? '300vh' : '100vh' }}>
+    // Always 300vh â€” no dynamic height change that breaks GSAP measurements
+    <div ref={outerRef} className="md:hidden relative w-full bg-ink" style={{ height: '300vh' }}>
 
       {/* Pinned scene */}
       <div
         ref={pinRef}
         className="w-full h-screen bg-ink flex flex-col items-center justify-between overflow-hidden px-5 pt-16 pb-6"
       >
-        {/* ── PRE-BOOT: lock screen ── */}
+        {/* â”€â”€ PRE-BOOT: lock screen â”€â”€ */}
         {!isBooted && (
           <>
-            {/* Eyebrow */}
             <span className="font-jetbrains text-[10px] font-bold bg-accent-lime text-ink brutal-pill px-4 py-1.5">
               // financial operating system
             </span>
 
             {/* Phone with lock screen */}
-            <div
-              className="relative flex-shrink-0"
-              style={{
-                width: 220, height: 440,
-                border: '3px solid #C8FF3D',
-                borderRadius: 36,
-                boxShadow: '0 0 0 1px rgba(200,255,61,0.25), 6px 6px 0px #C8FF3D',
-                background: '#FBF7EF',
-                overflow: 'hidden',
-              }}
-            >
-              {/* Notch */}
+            <div className="relative flex-shrink-0" style={{ width: 220, height: 440, border: '3px solid #C8FF3D', borderRadius: 36, boxShadow: '0 0 0 1px rgba(200,255,61,0.25), 6px 6px 0px #C8FF3D', background: '#FBF7EF', overflow: 'hidden' }}>
               <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-10" />
-
-              {/* Lock screen content */}
               <div className="absolute inset-0 flex flex-col items-center justify-between p-5 pt-10 pb-10 z-20 select-none">
-                {/* Status */}
                 <div className="w-full flex justify-between font-jetbrains text-[8px] text-ink-muted uppercase tracking-widest">
                   <span>CB OS v1.2</span><span>SECURED</span>
                 </div>
-
-                {/* Logo */}
                 <div className="text-center">
                   <h3 className="font-bricolage text-2xl font-extrabold text-ink uppercase tracking-tight">
                     Credit<span className="text-accent-purple">Buddy</span>
@@ -920,41 +921,27 @@ function MobileFlow() {
                     India&apos;s Student Network
                   </p>
                 </div>
-
-                {/* Fingerprint hold button */}
                 <div className="flex flex-col items-center gap-3">
                   <div className="relative flex items-center justify-center">
-                    {/* Pulse rings */}
                     {[140, 116, 96].map((size, i) => (
                       <span key={i} className="absolute rounded-full border-2 border-accent-lime/30"
                         style={{ width: size, height: size, animation: `ping-slow 2.4s cubic-bezier(0,0,0.2,1) ${i * 0.35}s infinite` }} />
                     ))}
                     <button
-                      onMouseDown={startHolding}
-                      onMouseUp={stopHolding}
-                      onMouseLeave={stopHolding}
-                      onTouchStart={(e) => { e.preventDefault(); startHolding(); }}
-                      onTouchEnd={stopHolding}
+                      onMouseDown={startHolding} onMouseUp={stopHolding} onMouseLeave={stopHolding}
+                      onTouchStart={(e) => { e.preventDefault(); startHolding(); }} onTouchEnd={stopHolding}
                       className="w-16 h-16 rounded-full bg-accent-lime/20 flex items-center justify-center relative outline-none select-none"
-                      style={{
-                        border: `2px solid ${isHolding ? '#C8FF3D' : 'rgba(200,255,61,0.5)'}`,
-                        boxShadow: isHolding ? '0 0 0 4px rgba(200,255,61,0.25), 0 0 24px rgba(200,255,61,0.4)' : '0 0 0 2px rgba(200,255,61,0.1)',
-                        transform: isHolding ? 'scale(0.92)' : 'scale(1)',
-                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                      }}
+                      style={{ border: `2px solid ${isHolding ? '#C8FF3D' : 'rgba(200,255,61,0.5)'}`, boxShadow: isHolding ? '0 0 0 4px rgba(200,255,61,0.25), 0 0 24px rgba(200,255,61,0.4)' : '0 0 0 2px rgba(200,255,61,0.1)', transform: isHolding ? 'scale(0.92)' : 'scale(1)', transition: 'transform 0.2s ease, box-shadow 0.2s ease' }}
                     >
-                      {/* Circular progress */}
                       <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 64 64">
                         <circle cx="32" cy="32" r="28" stroke="#C8FF3D" strokeWidth="3" fill="none"
                           strokeDasharray={2 * Math.PI * 28}
                           strokeDashoffset={2 * Math.PI * 28 * (1 - bootProgress / 100)}
-                          strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.05s linear' }}
-                        />
+                          strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.05s linear' }} />
                       </svg>
                       <Fingerprint className={`w-7 h-7 transition-colors duration-200 ${isHolding ? 'text-accent-lime' : 'text-ink/50'}`} />
                     </button>
                   </div>
-
                   <div className="text-center space-y-0.5">
                     <p className="font-jetbrains text-[8px] font-bold uppercase tracking-[0.2em] text-accent-purple">
                       {isHolding ? 'Booting App...' : 'Hold to Boot'}
@@ -967,7 +954,6 @@ function MobileFlow() {
               </div>
             </div>
 
-            {/* Instruction text */}
             <div className="text-center space-y-1 max-w-xs">
               <h2 className="font-bricolage text-3xl font-extrabold text-white leading-tight">
                 Unlock the<br />CreditBuddy App.
@@ -979,37 +965,23 @@ function MobileFlow() {
           </>
         )}
 
-        {/* ── POST-BOOT: scroll-driven phases ── */}
+        {/* â”€â”€ POST-BOOT: scroll-driven phases â”€â”€ */}
         {isBooted && (
           <>
-            {/* Eyebrow pill */}
             <div className="w-full flex justify-center">
               <span className={`font-jetbrains text-[10px] font-bold ${current.pillBg} ${current.pillText} brutal-pill px-4 py-1.5 transition-all duration-300`}>
                 {current.pill}
               </span>
             </div>
 
-            {/* Phone frame */}
-            <div
-              className="relative flex-shrink-0"
-              style={{
-                width: 220, height: 440,
-                border: `3px solid ${current.screenAccent}`,
-                borderRadius: 36,
-                boxShadow: `0 0 0 1px ${current.screenAccent}40, 6px 6px 0px ${current.screenAccent}`,
-                background: current.screenBg === 'bg-ink' ? '#14100F' : '#FBF7EF',
-                overflow: 'hidden',
-                transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
-              }}
-            >
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-10"
+            <div className="relative flex-shrink-0" style={{ width: 220, height: 440, border: `3px solid ${current.screenAccent}`, borderRadius: 36, boxShadow: `0 0 0 1px ${current.screenAccent}40, 6px 6px 0px ${current.screenAccent}`, background: current.screenBg === 'bg-ink' ? '#14100F' : '#FBF7EF', overflow: 'hidden', transition: 'border-color 0.4s ease, box-shadow 0.4s ease' }}>
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 rounded-full z-10"
                 style={{ background: current.screenBg === 'bg-ink' ? '#000' : '#14100F' }} />
               <div key={current.key} className="w-full h-full animate-fade-in">
                 {current.screenContent}
               </div>
             </div>
 
-            {/* Text below */}
             <div className="w-full text-center space-y-2 max-w-xs mx-auto">
               <h2 className={`font-bricolage text-4xl font-extrabold uppercase tracking-tight leading-none ${current.labelColor} transition-colors duration-300`}>
                 {current.label}
@@ -1022,7 +994,6 @@ function MobileFlow() {
               </p>
             </div>
 
-            {/* Progress dots */}
             <div className="flex gap-2 items-center">
               {MOBILE_PHASES.map((p, i) => (
                 <div key={p.key} className="rounded-full transition-all duration-300"
