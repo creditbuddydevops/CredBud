@@ -308,6 +308,8 @@ export const InteractiveFlow = () => {
   }, [isBooted]);
 
   return (
+    <>
+    {/* ── DESKTOP VERSION (md+) ── unchanged */}
     <div ref={outerContainerRef} className="hidden md:block relative w-full min-h-[400vh] bg-ink">
       
       {/* Full-viewport scene display container */}
@@ -648,5 +650,263 @@ export const InteractiveFlow = () => {
         </defs>
       </svg>
     </div>
+
+    {/* ── MOBILE VERSION (< md) ── straight phone, scroll-driven screen swap */}
+    <MobileFlow />
+    </>
   );
 };
+
+// ─── Mobile Flow Component ─────────────────────────────────────────────────
+// Straight phone, no fingerprint gate. Screen content swaps via ScrollTrigger
+// scrub as user scrolls through 3 pinned phases (Borrow → Earn → Learn).
+// Text label + description lives below the phone frame.
+
+const MOBILE_PHASES = [
+  {
+    key: 'borrow',
+    label: 'BORROW',
+    pill: '// borrow feature',
+    pillBg: 'bg-accent-lime',
+    pillText: 'text-ink',
+    labelColor: 'text-accent-lime',
+    heading: 'Need Instant Cash?',
+    desc: 'Tuition, exam fees, or campus needs — get approved in 60 seconds with 0% interest for the first 30 days.',
+    screenBg: 'bg-bg-primary',
+    screenAccent: '#C8FF3D',
+    screenContent: (
+      <div className="flex flex-col h-full justify-between p-4 pt-10">
+        <div className="text-center space-y-1">
+          <h3 className="font-bricolage text-2xl font-extrabold text-ink uppercase tracking-tight">
+            Credit<span className="text-accent-purple">Buddy</span>
+          </h3>
+          <p className="font-jetbrains text-[8px] text-ink-muted uppercase tracking-[0.2em]">
+            Instant Micro Credit
+          </p>
+        </div>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-full bg-accent-lime/10 border border-accent-lime rounded-2xl p-3">
+            <p className="font-jetbrains text-[8px] text-ink-muted uppercase tracking-widest mb-1">Credit Available</p>
+            <p className="font-bricolage text-2xl font-extrabold text-ink">₹50,000</p>
+            <div className="w-full h-1.5 bg-ink/10 rounded-full mt-2">
+              <div className="h-full w-1/4 bg-accent-lime rounded-full" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 w-full">
+            <div className="bg-white border border-ink/10 rounded-xl p-2 text-center">
+              <p className="font-jetbrains text-[7px] text-ink-muted">Interest</p>
+              <p className="font-bricolage text-sm font-extrabold text-ink">0%</p>
+            </div>
+            <div className="bg-white border border-ink/10 rounded-xl p-2 text-center">
+              <p className="font-jetbrains text-[7px] text-ink-muted">Approval</p>
+              <p className="font-bricolage text-sm font-extrabold text-ink">60s</p>
+            </div>
+          </div>
+        </div>
+        <button className="w-full py-2.5 bg-accent-lime brutal-border rounded-full font-bricolage font-bold text-sm text-ink">
+          Borrow Now →
+        </button>
+      </div>
+    ),
+  },
+  {
+    key: 'earn',
+    label: 'EARN',
+    pill: '// earn feature',
+    pillBg: 'bg-accent-gold',
+    pillText: 'text-ink',
+    labelColor: 'text-accent-gold',
+    heading: 'Grow Your Balance.',
+    desc: 'Pick up campus gigs, complete student challenges, and earn directly to your wallet. No experience needed.',
+    screenBg: 'bg-ink',
+    screenAccent: '#FFD23F',
+    screenContent: (
+      <div className="flex flex-col h-full justify-between p-4 pt-10">
+        <div className="text-center space-y-1">
+          <h3 className="font-bricolage text-2xl font-extrabold text-bg-primary uppercase tracking-tight">
+            Campus <span className="text-accent-gold">Gigs</span>
+          </h3>
+          <p className="font-jetbrains text-[8px] text-bg-primary/50 uppercase tracking-[0.2em]">
+            Earn While You Study
+          </p>
+        </div>
+        <div className="flex flex-col gap-2">
+          {[
+            { role: 'Brand Ambassador', earn: '₹2,000/mo', tag: 'Hot' },
+            { role: 'Survey Responder', earn: '₹500/task', tag: 'New' },
+            { role: 'Referral Drive', earn: '₹300/refer', tag: '' },
+          ].map((g, i) => (
+            <div key={i} className="flex items-center justify-between bg-white/10 border border-white/10 rounded-xl p-2.5">
+              <div>
+                <p className="font-jakarta text-[9px] font-bold text-bg-primary">{g.role}</p>
+                <p className="font-jetbrains text-[8px] text-accent-gold">{g.earn}</p>
+              </div>
+              {g.tag && <span className="text-[7px] font-bold bg-accent-gold text-ink px-2 py-0.5 rounded-full">{g.tag}</span>}
+            </div>
+          ))}
+        </div>
+        <button className="w-full py-2.5 bg-accent-gold border-2 border-ink rounded-full font-bricolage font-bold text-sm text-ink">
+          Browse Gigs →
+        </button>
+      </div>
+    ),
+  },
+  {
+    key: 'learn',
+    label: 'LEARN',
+    pill: '// learn feature',
+    pillBg: 'bg-accent-purple',
+    pillText: 'text-white',
+    labelColor: 'text-accent-purple',
+    heading: 'Real-World Skills.',
+    desc: 'Bite-sized modules on budgeting, credit scores, taxes, and investing. Secure your future before you graduate.',
+    screenBg: 'bg-bg-primary',
+    screenAccent: '#7B5CFF',
+    screenContent: (
+      <div className="flex flex-col h-full justify-between p-4 pt-10">
+        <div className="text-center space-y-1">
+          <h3 className="font-bricolage text-2xl font-extrabold text-ink uppercase tracking-tight">
+            Financial <span className="text-accent-purple">IQ</span>
+          </h3>
+          <p className="font-jetbrains text-[8px] text-ink-muted uppercase tracking-[0.2em]">
+            Byte-Sized Lessons
+          </p>
+        </div>
+        <div className="flex flex-col gap-2">
+          {[
+            { topic: 'CIBIL Score 101', progress: 80, color: 'bg-accent-purple' },
+            { topic: 'Budgeting Basics', progress: 55, color: 'bg-accent-cyan' },
+            { topic: 'SIP & Mutual Funds', progress: 30, color: 'bg-accent-gold' },
+          ].map((l, i) => (
+            <div key={i} className="bg-white border border-ink/10 rounded-xl p-2.5">
+              <div className="flex justify-between mb-1.5">
+                <p className="font-jakarta text-[9px] font-bold text-ink">{l.topic}</p>
+                <p className="font-jetbrains text-[8px] text-ink-muted">{l.progress}%</p>
+              </div>
+              <div className="w-full h-1.5 bg-ink/10 rounded-full">
+                <div className={`h-full ${l.color} rounded-full`} style={{ width: `${l.progress}%` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <button className="w-full py-2.5 bg-accent-purple brutal-border rounded-full font-bricolage font-bold text-sm text-white">
+          Start Learning →
+        </button>
+      </div>
+    ),
+  },
+];
+
+function MobileFlow() {
+  const outerRef   = useRef<HTMLDivElement>(null);
+  const pinRef     = useRef<HTMLDivElement>(null);
+  const phoneRef   = useRef<HTMLDivElement>(null);
+  const [phase, setPhase] = useState(0); // 0=borrow, 1=earn, 2=learn
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Pin the phone+text block while scrolling through 3 * 100vh of scroll distance
+      ScrollTrigger.create({
+        trigger: outerRef.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        pin: pinRef.current,
+        pinSpacing: false,
+        invalidateOnRefresh: true,
+      });
+
+      // Drive phase by scroll progress
+      ScrollTrigger.create({
+        trigger: outerRef.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        onUpdate: (self) => {
+          const p = self.progress;
+          // 0→0.33 = borrow, 0.33→0.66 = earn, 0.66→1 = learn
+          const newPhase = p < 0.33 ? 0 : p < 0.66 ? 1 : 2;
+          setPhase(prev => prev !== newPhase ? newPhase : prev);
+        },
+      });
+    }, outerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  const current = MOBILE_PHASES[phase];
+
+  return (
+    /* Outer scroll container: 3 * 100vh gives the scroll distance */
+    <div ref={outerRef} className="md:hidden relative w-full bg-ink" style={{ height: '300vh' }}>
+
+      {/* Pinned scene — stays fixed while user scrolls */}
+      <div
+        ref={pinRef}
+        className="w-full h-screen bg-ink flex flex-col items-center justify-between overflow-hidden px-5 pt-16 pb-6"
+      >
+        {/* Eyebrow pill */}
+        <div className="w-full flex justify-center">
+          <span className={`font-jetbrains text-[10px] font-bold ${current.pillBg} ${current.pillText} brutal-pill px-4 py-1.5 transition-all duration-300`}>
+            {current.pill}
+          </span>
+        </div>
+
+        {/* Phone frame — straight, no tilt */}
+        <div
+          ref={phoneRef}
+          className="relative flex-shrink-0"
+          style={{
+            width: 220,
+            height: 440,
+            border: `3px solid ${current.screenAccent}`,
+            borderRadius: 36,
+            boxShadow: `0 0 0 1px ${current.screenAccent}40, 6px 6px 0px ${current.screenAccent}`,
+            background: current.screenBg === 'bg-ink' ? '#14100F' : '#FBF7EF',
+            overflow: 'hidden',
+            transition: 'border-color 0.4s ease, box-shadow 0.4s ease',
+          }}
+        >
+          {/* Notch */}
+          <div
+            className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-4 bg-ink rounded-full z-10"
+            style={{ background: current.screenBg === 'bg-ink' ? '#000' : '#14100F' }}
+          />
+          {/* Screen content — keyed to phase for instant swap */}
+          <div key={current.key} className="w-full h-full animate-fade-in">
+            {current.screenContent}
+          </div>
+        </div>
+
+        {/* Text below phone */}
+        <div className="w-full text-center space-y-2 max-w-xs mx-auto">
+          <h2
+            className={`font-bricolage text-4xl font-extrabold uppercase tracking-tight leading-none ${current.labelColor} transition-colors duration-300`}
+          >
+            {current.label}
+          </h2>
+          <h3 className="font-bricolage text-xl font-extrabold text-white leading-tight">
+            {current.heading}
+          </h3>
+          <p className="font-jakarta text-sm text-white/60 leading-relaxed">
+            {current.desc}
+          </p>
+        </div>
+
+        {/* Progress dots */}
+        <div className="flex gap-2 items-center">
+          {MOBILE_PHASES.map((p, i) => (
+            <div
+              key={p.key}
+              className="rounded-full transition-all duration-300"
+              style={{
+                width:  i === phase ? 20 : 6,
+                height: 6,
+                background: i === phase ? current.screenAccent : 'rgba(255,255,255,0.2)',
+              }}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
