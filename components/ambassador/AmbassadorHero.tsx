@@ -62,9 +62,14 @@ export const AmbassadorHero = () => {
         </p>
 
         <div className="amb-hero-cta flex flex-wrap items-center justify-center gap-4">
-          <button className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple hover:scale-105 transition-transform cursor-pointer">
+          <a
+            href="https://forms.gle/MpxWvUywPedpbm9i9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple hover:scale-105 transition-transform cursor-pointer inline-block"
+          >
             Apply Now ↗
-          </button>
+          </a>
         </div>
 
       </div>

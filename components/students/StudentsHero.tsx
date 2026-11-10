@@ -92,9 +92,14 @@ export const StudentsHero = () => {
         </p>
 
         <div className="students-hero-cta flex flex-wrap items-center justify-center gap-4 z-10">
-          <button className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple hover:scale-105 transition-transform cursor-pointer">
-            Get Started Free ↗
-          </button>
+          <a
+            href="https://forms.gle/j8YLkrZR8htQ1W8W9"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple hover:scale-105 transition-transform cursor-pointer inline-block"
+          >
+            Apply Now ↗
+          </a>
         </div>
 
         {/* MOBILE ONLY: Character PNGs placed below all texts */}

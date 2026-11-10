@@ -58,9 +58,14 @@ export const AmbassadorEligibilityCheck = () => {
             ))}
           </ul>
         </div>
-        <button className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
+        <a
+          href="https://forms.gle/MpxWvUywPedpbm9i9"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple transition-transform hover:scale-105 cursor-pointer whitespace-nowrap inline-block"
+        >
           Apply as Ambassador ↗
-        </button>
+        </a>
       </div>
     </section>
   );

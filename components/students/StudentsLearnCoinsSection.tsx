@@ -39,9 +39,14 @@ export const StudentsLearnCoinsSection = () => {
             Complete 3-minute bite-sized lessons on budgeting, taxes, and investments to earn Buddy Coins redeemable for Amazon vouchers and fee discounts.
           </p>
         </div>
-        <button className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple transition-transform hover:scale-105 cursor-pointer whitespace-nowrap">
-          Start Learning Free ↗
-        </button>
+        <a
+          href="https://forms.gle/j8YLkrZR8htQ1W8W9"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-8 py-4 bg-ink text-bg-primary font-bricolage font-bold text-base brutal-pill brutal-shadow-purple transition-transform hover:scale-105 cursor-pointer whitespace-nowrap inline-block"
+        >
+          Apply Now ↗
+        </a>
       </div>
     </section>
   );

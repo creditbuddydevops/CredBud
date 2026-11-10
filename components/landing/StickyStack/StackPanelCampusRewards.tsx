@@ -52,38 +52,6 @@ export const StackPanelCampusRewards = () => {
 
       {/* Desktop View - Sticky Panel with floating stickers */}
       <div className="hidden md:flex sticky top-[5vh] md:top-[4vh] h-[90vh] md:h-[92vh] w-full z-[14] items-center justify-center my-4">
-        <style>{`
-          @keyframes stickerFloat1 {
-            0%, 100% { transform: translateY(0px) rotate(-12deg); }
-            50% { transform: translateY(-22px) rotate(-17deg); }
-          }
-          @keyframes stickerFloat2 {
-            0%, 100% { transform: translateY(0px) rotate(12deg); }
-            50% { transform: translateY(24px) translateX(-14px) rotate(17deg); }
-          }
-          @keyframes stickerFloat3 {
-            0%, 100% { transform: translateY(0px) rotate(6deg); }
-            50% { transform: translateY(-26px) translateX(12px) rotate(12deg); }
-          }
-          @keyframes stickerFloat4 {
-            0%, 100% { transform: translateY(0px) rotate(-6deg); }
-            50% { transform: translateY(22px) rotate(-12deg); }
-          }
-
-          .animate-sticker-1 {
-            animation: stickerFloat1 3.4s ease-in-out infinite;
-          }
-          .animate-sticker-2 {
-            animation: stickerFloat2 4.2s ease-in-out infinite;
-          }
-          .animate-sticker-3 {
-            animation: stickerFloat3 4.8s ease-in-out infinite;
-          }
-          .animate-sticker-4 {
-            animation: stickerFloat4 3.9s ease-in-out infinite;
-          }
-        `}</style>
-
         <div ref={containerRef} className="w-[95%] md:w-[96%] h-full bg-bg-secondary flex items-center p-8 brutal-card overflow-hidden relative bg-elements">
           
           {/* Background Sticker Elements (Hidden on Mobile) */}
